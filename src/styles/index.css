@@ -1,0 +1,297 @@
+@import-normalize;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+body {
+  margin: 0;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+:root {
+  height: -webkit-fill-available;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  height: -webkit-fill-available;
+  background-color: #ecf0f1;
+  color: #4c4c4c;
+}
+
+body,
+#root {
+  display: flex;
+}
+
+#root {
+  flex: 1;
+}
+
+.app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  padding: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.app-footer {
+  padding: 1rem;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+}
+
+.error {
+  font-size: 0.9rem;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: #ffffff;
+  border: 2px solid #e6e5e5;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 150ms ease;
+}
+
+.btn span {
+  vertical-align: middle;
+  line-height: 1px;
+}
+
+.btn:hover {
+  text-decoration: underline;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--secondary {
+  border: none;
+  background-color: #f1f1f1;
+}
+
+.btn--secondary:hover {
+  background-color: #eaeaea;
+}
+
+/*
+  FORM
+*/
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 10px;
+}
+
+.form-section legend {
+  text-align: center;
+  position: sticky;
+  top: 0.15rem;
+  z-index: 100;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.form-row {
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.form-field {
+  flex: 1 1 45%;
+  min-width: 220px;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.form-avatar-container {
+  margin: 0 auto;
+  gap: 0.25rem;
+}
+
+.form-avatar {
+  width: 200px;
+  aspect-ratio: 1;
+  background-color: #f5f5f5;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.form-avatar .form-field {
+  height: 100%;
+  min-width: initial;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.form-avatar img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.form-avatar .upload-icon {
+  font-size: 4rem;
+}
+
+.form-avatar .upload-edit {
+  display: none;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.3);
+  gap: 0.5rem;
+  padding: 0.5rem;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* On touch devices display controls without waiting for :hover */
+@media (hover: none) {
+  .form-avatar .upload-edit {
+    display: flex;
+  }
+}
+
+.form-avatar:hover .upload-edit {
+  display: flex;
+}
+
+.form-full-name-container {
+  flex: 1;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.form-full-name-container .form-field {
+  flex: 0;
+}
+
+.form-field label,
+.preview-name {
+  font-weight: 500;
+}
+
+.preview-value {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  word-break: break-word;
+}
+
+.form-field input[type='text'],
+.form-field input[type='email'],
+.form-field input[type='tel'],
+.form-field input[type='date'],
+.form-field input[type='url'],
+.form-field select {
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #eaeaea;
+  background-color: white;
+}
+
+.form-field input[type='date'] {
+  width: 100%;
+}
+
+.form-field input[type='text']:focus-visible,
+.form-field input[type='email']:focus-visible,
+.form-field input[type='tel']:focus-visible,
+.form-field input[type='date']:focus-visible,
+.form-field input[type='url']:focus-visible,
+.form-field select:focus {
+  outline-color: #7eb7f6;
+  border-color: #7eb7f6;
+}
+
+.form-field input[type='text'].invalid,
+.form-field input[type='email'].invalid,
+.form-field input[type='tel'].invalid,
+.form-field input[type='date'].invalid,
+.form-field input[type='url'].invalid,
+.form-field select.invalid {
+  outline-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.form-field .error {
+  position: absolute;
+  bottom: -1.25rem;
+}
+
+.form-section .section-controls {
+  gap: 1rem;
+  justify-content: flex-end;
+}
