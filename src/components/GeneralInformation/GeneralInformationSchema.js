@@ -16,7 +16,7 @@ export const AVATAR_SUPPORTED_FORMATS = [
   'image/png',
 ];
 
-const GeneralInformationSchema = Yup.object().shape({
+const GeneralInformationSchema = {
   avatar: Yup.mixed().test('fileFormat', 'Unsupported file type!', (value) => {
     if (value && value.type) {
       return AVATAR_SUPPORTED_FORMATS.includes(value.type);
@@ -56,6 +56,6 @@ const GeneralInformationSchema = Yup.object().shape({
     .max(64, 'Twitter url too long!')
     .matches(generateUrlRegex('twitter'), 'Invalid twitter url!'),
   website: Yup.string().max(64, 'Website url too long!').url('Invalid url!'),
-});
+};
 
 export default GeneralInformationSchema;

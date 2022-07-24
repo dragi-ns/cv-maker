@@ -286,7 +286,8 @@ main {
   border-color: #e74c3c;
 }
 
-.form-field .error {
+.form-field input + .error,
+.form-field select + .error {
   position: absolute;
   bottom: -1.25rem;
 }
@@ -294,4 +295,52 @@ main {
 .form-section .section-controls {
   gap: 1rem;
   justify-content: flex-end;
+}
+
+/*
+  Rich Editor
+*/
+.rich-editor-root {
+  border-radius: 5px;
+  border: 2px solid #eaeaea;
+  background-color: white;
+}
+
+.rich-editor-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid #eaeaea;
+}
+
+.rich-editor-control-btn {
+  font-size: 1.1rem;
+  padding: 0.5rem;
+}
+
+.rich-editor-control-btn--active {
+  background-color: #f1f1f1;
+}
+
+.rich-editor-editor {
+  padding: 0.75rem;
+}
+
+.rich-editor-editor .public-DraftEditor-content {
+  min-height: 10rem;
+  word-break: break-all;
+}
+
+.rich-editor-hide-placeholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.rich-editor-indicators {
+  display: flex;
+  font-weight: bold;
+}
+
+.rich-editor-count-indicator {
+  margin-left: auto;
 }
