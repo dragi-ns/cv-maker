@@ -9,21 +9,21 @@ import {
 } from 'react-icons/md';
 import TextInput from '../inputs/TextInput';
 import SelectInput from '../inputs/SelectInput';
-import AvatarInput from './AvatarInput';
+import AvatarInput from '../inputs/AvatarInput';
+import GeneralInformationInitialValues from './GeneralInformationIntitialValues';
 
 export default class GeneralInformationForm extends Component {
   constructor(props) {
     super(props);
-    this.maxDateOfBirth = format(new Date(), 'yyyy-MM-dd');
     this.state = {
       showAdditionalInformation: false,
       locked: false,
     };
-
+    this.maxDateOfBirth = format(new Date(), 'yyyy-MM-dd');
     this.toggleAdditionalInformation =
       this.toggleAdditionalInformation.bind(this);
-
     this.toggleLocked = this.toggleLocked.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
 
   toggleAdditionalInformation() {
@@ -35,14 +35,18 @@ export default class GeneralInformationForm extends Component {
   }
 
   async toggleLocked() {
-    await this.props.formik.validateForm();
-    if (!this.props.formik.isValid) {
-      this.props.formik.setTouched({
-        ...this.props.formik.touched,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phone: true,
+    const { validateForm, setTouched, ...formik } = this.props.formik;
+    await validateForm();
+    if (!this.isGeneralValid()) {
+      setTouched({
+        ...formik.touched,
+        general: {
+          ...formik.touched.general,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phone: true,
+        },
       });
     } else {
       this.setState((prevState) => {
@@ -51,18 +55,32 @@ export default class GeneralInformationForm extends Component {
     }
   }
 
+  isGeneralValid() {
+    return !this.props.formik.errors.general;
+  }
+
+  handleReset() {
+    const { values, errors, touched, resetForm } = this.props.formik;
+    resetForm({
+      ...this.props.formik,
+      values: { ...values, general: GeneralInformationInitialValues },
+      errors: { ...errors, general: {} },
+      touched: { ...touched, general: {} },
+    });
+  }
+
   render() {
-    const { values, errors, setFieldValue, resetForm } = this.props.formik;
+    const { values, errors, setFieldValue } = this.props.formik;
     return (
       <fieldset className="form-section">
         <legend>General Information</legend>
         <div className="form-row row">
           <AvatarInput
+            name="general.avatar"
             locked={this.state.locked}
-            name="avatar"
-            value={values.avatar}
-            error={errors.avatar}
-            setFieldValue={setFieldValue}
+            value={values.general.avatar}
+            error={errors.general && errors.general.avatar}
+            onChange={setFieldValue}
           />
 
           <div className="form-full-name-container col">
@@ -70,7 +88,7 @@ export default class GeneralInformationForm extends Component {
               locked={this.state.locked}
               label="First Name*"
               type="text"
-              name="firstName"
+              name="general.firstName"
               placeholder="Jane"
             />
 
@@ -78,7 +96,7 @@ export default class GeneralInformationForm extends Component {
               locked={this.state.locked}
               label="Last Name*"
               type="text"
-              name="lastName"
+              name="general.lastName"
               placeholder="Doe"
             />
           </div>
@@ -89,7 +107,7 @@ export default class GeneralInformationForm extends Component {
             locked={this.state.locked}
             label="Email address*"
             type="email"
-            name="email"
+            name="general.email"
             placeholder="jane.doe@example.com"
           />
 
@@ -97,7 +115,7 @@ export default class GeneralInformationForm extends Component {
             locked={this.state.locked}
             label="Phone number*"
             type="tel"
-            name="phone"
+            name="general.phone"
             placeholder="061234567"
           />
         </div>
@@ -109,7 +127,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Address"
                 type="text"
-                name="address"
+                name="general.address"
                 placeholder="123 Main Street"
               />
             </div>
@@ -119,7 +137,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="City/Town"
                 type="text"
-                name="city"
+                name="general.city"
                 placeholder="New York"
               />
 
@@ -127,7 +145,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Country"
                 type="text"
-                name="country"
+                name="general.country"
                 placeholder="USA"
               />
             </div>
@@ -137,15 +155,15 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Date of birth"
                 type="date"
-                name="dateOfBirth"
+                name="general.dateOfBirth"
                 max={this.maxDateOfBirth}
               />
 
               <SelectInput
                 locked={this.state.locked}
                 label="Gender"
-                name="gender">
-                <option value="">Select a gener</option>
+                name="general.gender">
+                <option value="">Select a gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </SelectInput>
@@ -156,7 +174,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Linkedin"
                 type="url"
-                name="linkedin"
+                name="general.linkedin"
                 placeholder="https://www.linkedin.com/in/jane-doe/"
               />
 
@@ -164,7 +182,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Github"
                 type="url"
-                name="github"
+                name="genral.github"
                 placeholder="https://github.com/jane-doe"
               />
             </div>
@@ -174,7 +192,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Twitter"
                 type="url"
-                name="twitter"
+                name="general.twitter"
                 placeholder="https://twitter.com/jane-doe"
               />
 
@@ -182,7 +200,7 @@ export default class GeneralInformationForm extends Component {
                 locked={this.state.locked}
                 label="Website"
                 type="url"
-                name="website"
+                name="general.website"
                 placeholder="https://janedoe.io"
               />
             </div>
@@ -210,7 +228,7 @@ export default class GeneralInformationForm extends Component {
         </button>
         <div className="section-controls row">
           {!this.state.locked && (
-            <button type="button" className="btn" onClick={resetForm}>
+            <button type="button" className="btn" onClick={this.handleReset}>
               <span>
                 <MdOutlineClear />
               </span>

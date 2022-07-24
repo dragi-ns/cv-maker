@@ -1,23 +1,25 @@
 import { Component } from 'react';
 import { MdAddAPhoto } from 'react-icons/md';
-import { AVATAR_SUPPORTED_FORMATS } from './GeneralInformationSchema';
+import { AVATAR_SUPPORTED_FORMATS } from '../GeneralInformation/GeneralInformationSchema';
 
 export default class AvatarInput extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       avatarImg: null,
     };
-
+    this.supportedFormats = AVATAR_SUPPORTED_FORMATS.join(', ');
     this.handleAvatarUpload = this.handleAvatarUpload.bind(this);
-    this.removeAvatar = this.removeAvatar.bind(this);
+    this.handleAvatarRemove = this.handleAvatarRemove.bind(this);
   }
 
+  // Fixme: When the user uploads a file that it isn't supported
   handleAvatarUpload(event) {
+    const { name, onChange } = this.props;
+
     const reader = new FileReader();
     const file = event.currentTarget.files[0];
-    this.props.setFieldValue('avatar', file);
+    onChange(name, file);
 
     reader.onload = () => {
       if (!this.props.error) {
@@ -34,9 +36,10 @@ export default class AvatarInput extends Component {
     reader.readAsDataURL(file);
   }
 
-  removeAvatar() {
+  handleAvatarRemove() {
+    const { name, onChange } = this.props;
     this.setState({ avatarImg: null });
-    this.props.setFieldValue('avatar', {});
+    onChange(name, null);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -52,6 +55,7 @@ export default class AvatarInput extends Component {
   }
 
   render() {
+    const { id, name, locked, error } = this.props;
     return (
       <div className="form-avatar-container col">
         <div className="form-avatar">
@@ -59,17 +63,15 @@ export default class AvatarInput extends Component {
             {this.state.avatarImg ? (
               <>
                 <img src={this.state.avatarImg} alt="avatar" />
-                {!this.props.locked && (
+                {!locked && (
                   <div className="upload-edit col">
-                    <label
-                      className="btn"
-                      htmlFor={this.props.id || this.props.name}>
+                    <label className="btn" htmlFor={id || name}>
                       Edit avatar
                     </label>
                     <button
                       type="button"
                       className="btn"
-                      onClick={this.removeAvatar}>
+                      onClick={this.handleAvatarRemove}>
                       Remove avatar
                     </button>
                   </div>
@@ -80,26 +82,24 @@ export default class AvatarInput extends Component {
                 <div className="upload-icon">
                   <MdAddAPhoto />
                 </div>
-                {!this.props.locked && (
-                  <label
-                    className="btn"
-                    htmlFor={this.props.id || this.props.name}>
+                {!locked && (
+                  <label className="btn" htmlFor={id || name}>
                     Add avatar (optional)
                   </label>
                 )}
               </>
             )}
             <input
-              id={this.props.id || this.props.name}
-              name={this.props.name || this.props.id}
+              id={id || name}
+              name={name || id}
               type="file"
-              accept={AVATAR_SUPPORTED_FORMATS.join(', ')}
+              accept={this.supportedFormats}
               onChange={this.handleAvatarUpload}
               hidden
             />
           </div>
         </div>
-        {this.props.error && <p className="error">{this.props.error}</p>}
+        {error && <p className="error">{error}</p>}
       </div>
     );
   }

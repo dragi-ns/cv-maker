@@ -16,11 +16,11 @@ export default class Main extends Component {
       <main>
         <Formik
           initialValues={{
-            ...GeneralInformationInitialValues,
+            general: GeneralInformationInitialValues,
             ...ObjectiveIntialValues,
           }}
           validationSchema={Yup.object().shape({
-            ...GeneralInformationSchema,
+            general: Yup.object().shape(GeneralInformationSchema),
             ...ObjectiveSchema,
           })}
           onSubmit={(values) => {
