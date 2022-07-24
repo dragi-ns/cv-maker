@@ -19,6 +19,7 @@ export default class RichInput extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this.mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this.toggleBlockType.bind(this);
@@ -26,10 +27,15 @@ export default class RichInput extends Component {
   }
 
   handleChange(editorState) {
-    this.props.handleChange('objective', editorState);
+    this.props.onChange(this.props.name, editorState);
+  }
+
+  handleFocus() {
+    this.props.onFocus(this.props.name, true);
   }
 
   handleKeyCommand(command, editorState) {
+    // Ignore monospaced style
     if (command === 'code') {
       return 'not-handled';
     }
@@ -42,6 +48,7 @@ export default class RichInput extends Component {
     return 'not-handled';
   }
 
+  // Gives us a way to make nested lists of 'maxDepth' (1 in this case)
   mapKeyToEditorCommand(event) {
     if (event.keyCode === 9 /* TAB */) {
       const newEditorState = RichUtils.onTab(
@@ -69,14 +76,19 @@ export default class RichInput extends Component {
     );
   }
 
-  getCharCount(editorState) {
+  static getCharCount(editorState) {
     return editorState.getCurrentContent().getPlainText('').length;
   }
 
-  render() {
-    const { editorState } = this.props;
+  static toHtml(editorState) {
+    return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+  }
 
-    // If the user changes block type before entering any text, we can hide it.
+  render() {
+    const { editorState, locked, label, error, maxLength } = this.props;
+
+    // If the user changes block type before entering any text,
+    // we can hide the placeholder.
     let className = 'rich-editor-editor';
     const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
@@ -85,57 +97,61 @@ export default class RichInput extends Component {
       }
     }
 
+    const charCount = this.constructor.getCharCount(editorState);
+
+    let previewHTML = null;
+    if (locked) {
+      if (charCount > 0) {
+        previewHTML = this.constructor.toHtml(editorState);
+      } else {
+        previewHTML = 'Not provided';
+      }
+    }
+
     return (
       <div className="form-row row">
         <div className="form-field col">
-          {this.props.locked ? (
+          {locked ? (
             <>
-              <p className="preview-name">Description</p>
+              <p className="preview-name">{label}</p>
               <p
                 className="preview-value"
                 dangerouslySetInnerHTML={{
-                  __html: draftToHtml(
-                    convertToRaw(editorState.getCurrentContent())
-                  ),
+                  __html: previewHTML,
                 }}
               />
             </>
           ) : (
             <>
-              <label>Description</label>
+              <label>{label}</label>
               <div className="rich-editor-root">
                 <div className="rich-editor-controls">
                   <InlineStyleControls
-                    editorState={this.props.editorState}
+                    editorState={editorState}
                     handleToggle={this.toggleInlineStyle}
                   />
                   <BlockStyleControls
-                    editorState={this.props.editorState}
+                    editorState={editorState}
                     handleToggle={this.toggleBlockType}
                   />
                 </div>
                 <div className={className}>
                   <Editor
-                    editorState={this.props.editorState}
+                    editorState={editorState}
+                    onChange={this.handleChange}
+                    onFocus={this.handleFocus}
                     handleKeyCommand={this.handleKeyCommand}
                     keyBindingFn={this.mapKeyToEditorCommand}
-                    onChange={this.handleChange}
-                    onFocus={() =>
-                      this.props.setFieldTouched('objective', true)
-                    }
-                    placeholder="Type your objective/goal here..."
+                    placeholder="Type your description here..."
                   />
                 </div>
               </div>
               <div className="rich-editor-indicators">
-                {this.props.error && (
-                  <p className="rich-editor-error-indicator error">
-                    {this.props.error}
-                  </p>
+                {error && (
+                  <p className="rich-editor-error-indicator error">{error}</p>
                 )}
                 <p className="rich-editor-count-indicator">
-                  {this.getCharCount(this.props.editorState)}/
-                  {this.props.maxLength}
+                  {charCount}/{maxLength}
                 </p>
               </div>
             </>
@@ -149,26 +165,26 @@ export default class RichInput extends Component {
 class ControlButton extends Component {
   constructor(props) {
     super(props);
-
     this.handleToggle = this.handleToggle.bind(this);
   }
 
   handleToggle(event) {
     event.preventDefault();
-    this.props.handleToggle(this.props.style);
+    this.props.onToggle(this.props.style);
   }
 
   render() {
+    const { active, icon } = this.props;
     return (
       <button
         type="button"
         className={classNames({
           btn: true,
           'rich-editor-control-btn': true,
-          'rich-editor-control-btn--active': this.props.active,
+          'rich-editor-control-btn--active': active,
         })}
         onMouseDown={this.handleToggle}>
-        <span>{this.props.icon}</span>
+        <span>{icon}</span>
       </button>
     );
   }
@@ -192,11 +208,11 @@ function InlineStyleControls(props) {
       {INLINE_STYLES.map((type) => (
         <ControlButton
           key={type.label}
-          active={currentStyle.has(type.style)}
-          label={type.label}
           icon={type.icon}
-          handleToggle={props.handleToggle}
+          label={type.label}
           style={type.style}
+          active={currentStyle.has(type.style)}
+          onToggle={props.handleToggle}
         />
       ))}
     </>
@@ -229,11 +245,11 @@ function BlockStyleControls(props) {
       {BLOCK_STYLES.map((type) => (
         <ControlButton
           key={type.label}
-          active={type.style === blockType}
-          label={type.label}
           icon={type.icon}
-          handleToggle={props.handleToggle}
+          label={type.label}
           style={type.style}
+          active={type.style === blockType}
+          onToggle={props.handleToggle}
         />
       ))}
     </>
