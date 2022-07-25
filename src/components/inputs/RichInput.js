@@ -111,54 +111,52 @@ export default class RichInput extends Component {
     }
 
     return (
-      <div className="form-row row">
-        <div className="form-field col">
-          {locked ? (
-            <>
-              <p className="preview-name">{label}</p>
-              <p
-                className="preview-value"
-                dangerouslySetInnerHTML={{
-                  __html: previewHTML,
-                }}
-              />
-            </>
-          ) : (
-            <>
-              <label>{label}</label>
-              <div className="rich-editor-root">
-                <div className="rich-editor-controls">
-                  <InlineStyleControls
-                    editorState={editorState}
-                    handleToggle={this.toggleInlineStyle}
-                  />
-                  <BlockStyleControls
-                    editorState={editorState}
-                    handleToggle={this.toggleBlockType}
-                  />
-                </div>
-                <div className={className}>
-                  <Editor
-                    editorState={editorState}
-                    onChange={this.handleChange}
-                    onFocus={this.handleFocus}
-                    handleKeyCommand={this.handleKeyCommand}
-                    keyBindingFn={this.mapKeyToEditorCommand}
-                    placeholder="Type your description here..."
-                  />
-                </div>
+      <div className="form-field col">
+        {locked ? (
+          <>
+            <p className="preview-name">{label}</p>
+            <p
+              className="preview-value"
+              dangerouslySetInnerHTML={{
+                __html: previewHTML,
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <label>{label}</label>
+            <div className="rich-editor-root">
+              <div className="rich-editor-controls">
+                <InlineStyleControls
+                  editorState={editorState}
+                  handleToggle={this.toggleInlineStyle}
+                />
+                <BlockStyleControls
+                  editorState={editorState}
+                  handleToggle={this.toggleBlockType}
+                />
               </div>
-              <div className="rich-editor-indicators">
-                {error && (
-                  <p className="rich-editor-error-indicator error">{error}</p>
-                )}
-                <p className="rich-editor-count-indicator">
-                  {charCount}/{maxLength}
-                </p>
+              <div className={className}>
+                <Editor
+                  editorState={editorState}
+                  onChange={this.handleChange}
+                  onFocus={this.handleFocus}
+                  handleKeyCommand={this.handleKeyCommand}
+                  keyBindingFn={this.mapKeyToEditorCommand}
+                  placeholder="Type your description here..."
+                />
               </div>
-            </>
-          )}
-        </div>
+            </div>
+            <div className="rich-editor-indicators">
+              {error && (
+                <p className="rich-editor-error-indicator error">{error}</p>
+              )}
+              <p className="rich-editor-count-indicator">
+                {charCount}/{maxLength}
+              </p>
+            </div>
+          </>
+        )}
       </div>
     );
   }

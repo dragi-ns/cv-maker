@@ -54,16 +54,18 @@ export default class ObjectiveSection extends Component {
     return (
       <fieldset className="form-section">
         <legend>Objective/Goal</legend>
-        <RichInput
-          label="Description"
-          name="objective"
-          locked={this.state.locked}
-          editorState={values.objective}
-          error={errors.objective}
-          onChange={setFieldValue}
-          onFocus={setFieldTouched}
-          maxLength={MAX_LENGTH}
-        />
+        <div className="form-row row">
+          <RichInput
+            label="Description"
+            name="objective"
+            locked={this.state.locked}
+            editorState={values.objective}
+            error={errors.objective}
+            onChange={setFieldValue}
+            onFocus={setFieldTouched}
+            maxLength={MAX_LENGTH}
+          />
+        </div>
         <SectionControls
           locked={this.state.locked}
           handleReset={this.handleReset}

@@ -13,17 +13,9 @@ export default class ToggleButton extends Component {
   }
 
   render() {
-    const data = this.props.active
-      ? this.props.activeData
-      : this.props.inactiveData;
+    const { active, activeData, inactiveData, onToggle, ...props } = this.props;
+    const data = active ? this.props.activeData : this.props.inactiveData;
 
-    return (
-      <Button
-        type={this.props.type}
-        className={this.props.className}
-        data={data}
-        onClick={this.handleToggle}
-      />
-    );
+    return <Button {...props} data={data} onClick={this.handleToggle} />;
   }
 }
