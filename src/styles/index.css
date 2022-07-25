@@ -103,7 +103,7 @@ main {
   transition: all 150ms ease;
 }
 
-.btn span {
+.btn span.icon {
   vertical-align: middle;
   line-height: 1px;
 }

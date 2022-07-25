@@ -1,18 +1,68 @@
 import { Component } from 'react';
 import { format } from 'date-fns';
-import {
-  MdLockOutline,
-  MdLockOpen,
-  MdOutlineClear,
-  MdOutlineAdd,
-  MdRemove,
-} from 'react-icons/md';
-import TextInput from '../inputs/TextInput';
-import SelectInput from '../inputs/SelectInput';
-import AvatarInput from '../inputs/AvatarInput';
-import GeneralInformationInitialValues from './GeneralInformationIntitialValues';
+import { MdOutlineAdd, MdRemove } from 'react-icons/md';
+import { TextInput, SelectInput, AvatarInput } from '../inputs';
+import { ToggleButton } from '../buttons';
+import SectionControls from './SectionControls';
+import * as Yup from 'yup';
 
-export default class GeneralInformationForm extends Component {
+const PHONE_REGEX = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+const GENDERS = ['male', 'female'];
+export const AVATAR_SUPPORTED_FORMATS = [
+  'image/jpg',
+  'image/jpeg',
+  'image/gif',
+  'image/png',
+];
+
+export const GeneralValidationSchema = {
+  avatar: Yup.mixed().test('fileFormat', 'Unsupported file type!', (value) => {
+    if (value && value.type) {
+      return AVATAR_SUPPORTED_FORMATS.includes(value.type);
+    }
+    return true;
+  }),
+  firstName: Yup.string()
+    .min(2, 'First name is too short!')
+    .max(50, 'First name is too long!')
+    .required('First name is required!'),
+  lastName: Yup.string()
+    .min(2, 'Last name is too short!')
+    .max(50, 'Last name is too long!')
+    .required('Last name is required!'),
+  email: Yup.string()
+    .email('Invalid email address!')
+    .max(64, 'Email address is too long!')
+    .required('Email address is required!'),
+  phone: Yup.string()
+    .matches(PHONE_REGEX, 'Invalid phone number!')
+    .required('Phone number is required!'),
+  address: Yup.string().max(64, 'Address is too long!'),
+  city: Yup.string().max(64, 'City name is too long!'),
+  country: Yup.string().max(64, 'Country name is too long!'),
+  dateOfBirth: Yup.date('Invalid date!').max(
+    new Date(),
+    'Date of birth cannot be in the future!'
+  ),
+  gender: Yup.string().oneOf(GENDERS, 'Invalid gender!'),
+  website: Yup.string().max(64, 'Website url too long!').url('Invalid url!'),
+};
+
+export const GeneralInitialValues = {
+  avatar: null,
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  address: '',
+  city: '',
+  country: '',
+  dateOfBirth: '',
+  gender: '',
+  website: '',
+};
+
+export default class GeneralSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,7 +113,7 @@ export default class GeneralInformationForm extends Component {
     const { values, errors, touched, resetForm } = this.props.formik;
     resetForm({
       ...this.props.formik,
-      values: { ...values, general: GeneralInformationInitialValues },
+      values: { ...values, general: GeneralInitialValues },
       errors: { ...errors, general: {} },
       touched: { ...touched, general: {} },
     });
@@ -80,6 +130,7 @@ export default class GeneralInformationForm extends Component {
             locked={this.state.locked}
             value={values.general.avatar}
             error={errors.general && errors.general.avatar}
+            supprotedFormats={AVATAR_SUPPORTED_FORMATS.join(', ')}
             onChange={setFieldValue}
           />
 
@@ -172,32 +223,6 @@ export default class GeneralInformationForm extends Component {
             <div className="form-row row">
               <TextInput
                 locked={this.state.locked}
-                label="Linkedin"
-                type="url"
-                name="general.linkedin"
-                placeholder="https://www.linkedin.com/in/jane-doe/"
-              />
-
-              <TextInput
-                locked={this.state.locked}
-                label="Github"
-                type="url"
-                name="genral.github"
-                placeholder="https://github.com/jane-doe"
-              />
-            </div>
-
-            <div className="form-row row">
-              <TextInput
-                locked={this.state.locked}
-                label="Twitter"
-                type="url"
-                name="general.twitter"
-                placeholder="https://twitter.com/jane-doe"
-              />
-
-              <TextInput
-                locked={this.state.locked}
                 label="Website"
                 type="url"
                 name="general.website"
@@ -206,53 +231,24 @@ export default class GeneralInformationForm extends Component {
             </div>
           </>
         )}
-        <button
-          type="button"
-          className="btn btn--secondary"
-          onClick={this.toggleAdditionalInformation}>
-          {this.state.showAdditionalInformation ? (
-            <>
-              <span>
-                <MdRemove />
-              </span>
-              <span>Hide Additional information</span>
-            </>
-          ) : (
-            <>
-              <span>
-                <MdOutlineAdd />
-              </span>
-              <span>Show Additional information</span>
-            </>
-          )}
-        </button>
-        <div className="section-controls row">
-          {!this.state.locked && (
-            <button type="button" className="btn" onClick={this.handleReset}>
-              <span>
-                <MdOutlineClear />
-              </span>
-              <span>Reset</span>
-            </button>
-          )}
-          <button type="button" className="btn" onClick={this.toggleLocked}>
-            {this.state.locked ? (
-              <>
-                <span>
-                  <MdLockOpen />
-                </span>
-                <span>Unlock</span>
-              </>
-            ) : (
-              <>
-                <span>
-                  <MdLockOutline />
-                </span>
-                <span>Lock</span>
-              </>
-            )}
-          </button>
-        </div>
+        <ToggleButton
+          active={this.state.showAdditionalInformation}
+          activeData={{
+            icon: <MdRemove />,
+            label: 'Hide additional information',
+          }}
+          inactiveData={{
+            icon: <MdOutlineAdd />,
+            label: 'Show additional information',
+          }}
+          className="btn--secondary"
+          onToggle={this.toggleAdditionalInformation}
+        />
+        <SectionControls
+          locked={this.state.locked}
+          handleReset={this.handleReset}
+          handleToggle={this.toggleLocked}
+        />
       </fieldset>
     );
   }

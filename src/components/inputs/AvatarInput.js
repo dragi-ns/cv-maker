@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { MdAddAPhoto } from 'react-icons/md';
-import { AVATAR_SUPPORTED_FORMATS } from '../GeneralInformation/GeneralInformationSchema';
 
 export default class AvatarInput extends Component {
   constructor(props) {
@@ -8,7 +7,6 @@ export default class AvatarInput extends Component {
     this.state = {
       avatarImg: null,
     };
-    this.supportedFormats = AVATAR_SUPPORTED_FORMATS.join(', ');
     this.handleAvatarUpload = this.handleAvatarUpload.bind(this);
     this.handleAvatarRemove = this.handleAvatarRemove.bind(this);
   }
@@ -55,7 +53,7 @@ export default class AvatarInput extends Component {
   }
 
   render() {
-    const { id, name, locked, error } = this.props;
+    const { id, name, locked, error, supportedFormats } = this.props;
     return (
       <div className="form-avatar-container col">
         <div className="form-avatar">
@@ -93,7 +91,7 @@ export default class AvatarInput extends Component {
               id={id || name}
               name={name || id}
               type="file"
-              accept={this.supportedFormats}
+              accept={supportedFormats}
               onChange={this.handleAvatarUpload}
               hidden
             />

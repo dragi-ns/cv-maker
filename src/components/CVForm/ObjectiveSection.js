@@ -1,11 +1,26 @@
 import { Component } from 'react';
-import { MdLockOutline, MdLockOpen, MdOutlineClear } from 'react-icons/md';
-import RichInput from '../inputs/RichInput';
-import ObjectiveInitialValues from './ObjectiveInitialValues';
-import { MAX_LENGTH } from './ObjectiveSchema';
-import 'draft-js/dist/Draft.css';
+import { EditorState } from 'draft-js';
+import * as Yup from 'yup';
+import { RichInput } from '../inputs';
+import SectionControls from './SectionControls';
 
-export default class ObjectiveForm extends Component {
+export const MAX_LENGTH = 256;
+
+export const ObjectiveValidationSchema = {
+  objective: Yup.object().test(
+    'max length',
+    'Description is too long!',
+    (value) => {
+      return value.getCurrentContent().getPlainText('').length < MAX_LENGTH + 1;
+    }
+  ),
+};
+
+export const ObjectiveInitialValues = {
+  objective: EditorState.createEmpty(),
+};
+
+export default class ObjectiveSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,33 +64,11 @@ export default class ObjectiveForm extends Component {
           onFocus={setFieldTouched}
           maxLength={MAX_LENGTH}
         />
-        <div className="section-controls row">
-          {!this.state.locked && (
-            <button type="button" className="btn" onClick={this.handleReset}>
-              <span>
-                <MdOutlineClear />
-              </span>
-              <span>Reset</span>
-            </button>
-          )}
-          <button type="button" className="btn" onClick={this.toggleLocked}>
-            {this.state.locked ? (
-              <>
-                <span>
-                  <MdLockOpen />
-                </span>
-                <span>Unlock</span>
-              </>
-            ) : (
-              <>
-                <span>
-                  <MdLockOutline />
-                </span>
-                <span>Lock</span>
-              </>
-            )}
-          </button>
-        </div>
+        <SectionControls
+          locked={this.state.locked}
+          handleReset={this.handleReset}
+          handleToggle={this.toggleLocked}
+        />
       </fieldset>
     );
   }

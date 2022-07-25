@@ -18,6 +18,7 @@ export default function TextInput({ label, locked, ...props }) {
             className={classNames({
               invalid: meta.touched && meta.error,
             })}
+            id={props.id || props.name}
             {...field}
             {...props}
           />

@@ -12,8 +12,10 @@ import {
   MdOutlineFormatListBulleted,
   MdOutlineFormatListNumbered,
 } from 'react-icons/md';
+import { Button } from '../buttons';
 import classNames from 'classnames';
 import draftToHtml from 'draftjs-to-html';
+import 'draft-js/dist/Draft.css';
 
 export default class RichInput extends Component {
   constructor(props) {
@@ -176,16 +178,14 @@ class ControlButton extends Component {
   render() {
     const { active, icon } = this.props;
     return (
-      <button
-        type="button"
+      <Button
+        data={{ icon }}
         className={classNames({
-          btn: true,
           'rich-editor-control-btn': true,
           'rich-editor-control-btn--active': active,
         })}
-        onMouseDown={this.handleToggle}>
-        <span>{icon}</span>
-      </button>
+        onMouseDown={this.handleToggle}
+      />
     );
   }
 }
