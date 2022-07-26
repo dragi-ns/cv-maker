@@ -14,10 +14,11 @@ export default class ListItemPreview extends Component {
       <div className="list-item-preview row">
         <div className="list-item-info col">
           <p className="list-item-title">
-            {title.split(',').map((value, index) => {
+            {title.split(',').map((value, index, array) => {
               return (
                 <span key={index} className={classNames({ bold: index === 0 })}>
                   {value}
+                  {index === 0 && array.length > 1 && ', '}
                 </span>
               );
             })}

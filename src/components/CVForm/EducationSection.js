@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { EditorState } from 'draft-js';
 import { format } from 'date-fns';
 import { TextInput, RichInput } from '../inputs';
-import ListSection from './ListSection';
-import SectionControls from './SectionControls';
-import ListItemPreview from './ListItemPreview';
 import * as Yup from 'yup';
+import ListSection from './ListSection';
+import ListItemPreview from './ListItemPreview';
+import SectionControls from './SectionControls';
+import { formatPeriod, toggleListItemLocked } from './helpers';
 
 const MAX_LENGTH = 256;
 
@@ -26,10 +27,7 @@ export const EducationValidationSchema = {
     .max(new Date(), 'Start date cannot be in the future!')
     .required('Start date is required!'),
   endDate: Yup.date()
-    .nullable()
-    .transform((value) =>
-      value instanceof Date && !isNaN(value) ? value : null
-    )
+    .typeError('Invalid date!')
     .when(
       'startDate',
       (startDate, schema) =>
@@ -37,7 +35,7 @@ export const EducationValidationSchema = {
           schema.min(startDate, 'End date cannot be before start date!')) ||
         schema
     ),
-  educationDescription: Yup.object().test(
+  description: Yup.object().test(
     'max length',
     'Education description is too long!',
     (value) => {
@@ -51,7 +49,7 @@ export const EducationInitialValues = {
   degree: '',
   startDate: '',
   endDate: '',
-  educationDescription: EditorState.createEmpty(),
+  description: EditorState.createEmpty(),
 };
 
 export default class EducationSection extends Component {
@@ -66,6 +64,7 @@ export default class EducationSection extends Component {
         formik={formik}
         initialValues={EducationInitialValues}
         InputComponent={EducationInputSection}
+        maxItems={5}
       />
     );
   }
@@ -85,32 +84,15 @@ class EducationInputSection extends Component {
   }
 
   async toggleLocked() {
-    const { validateForm, setTouched, ...formik } = this.props.formik;
-    await validateForm();
-    if (!this.isEducationValid()) {
-      const { education } = formik.touched;
-      const newEducation = education ? [...education] : [];
-      const oldTouched = newEducation[this.props.index];
-      if (oldTouched) {
-        newEducation[this.props.index] = {
-          ...oldTouched,
-          school: true,
-          degree: true,
-          startDate: true,
-        };
-      } else {
-        newEducation[this.props.index] = {
-          school: true,
-          degree: true,
-          startDate: true,
-        };
-      }
+    const toggle = await toggleListItemLocked(
+      this.props.formik,
+      this.isEducationValid,
+      'education',
+      this.props.index,
+      { school: true, degree: true, startDate: true }
+    );
 
-      setTouched({
-        ...formik.touched,
-        education: newEducation,
-      });
-    } else {
+    if (toggle) {
       this.setState((prevState) => {
         return { locked: !prevState.locked };
       });
@@ -133,23 +115,27 @@ class EducationInputSection extends Component {
     const { index, field, arrayHelpers } = this.props;
     const { errors, setFieldValue, setFieldTouched } = this.props.formik;
 
-    const listSectionControls = (
+    const listItemControls = (
       <SectionControls
         isList={true}
         index={index}
         arrayHelpers={arrayHelpers}
+        locked={this.state.locked}
         handleToggle={this.toggleLocked}
       />
     );
+
+    let period = null;
+    if (this.state.locked) {
+      period = formatPeriod(field[index].startDate, field[index].endDate);
+    }
     return (
       <>
         {this.state.locked ? (
           <ListItemPreview
-            mainInfo={field[index].school}
-            subInfo={field[index].degree}
-            startDate={field[index].startDate}
-            endDate={field[index].endDate}
-            SectionControls={listSectionControls}
+            title={`${field[index].school}, ${field[index].degree}`}
+            subtitle={period}
+            listItemControls={listItemControls}
           />
         ) : (
           <>
@@ -199,18 +185,15 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <RichInput
                 label="Description"
-                name={`education[${index}].educationDescription`}
-                editorState={field[index].educationDescription}
-                error={
-                  errors.education && errors.education.educationDescription
-                }
+                name={`education[${index}].description`}
+                editorState={field[index].description}
+                error={errors.education && errors.education[index].description}
                 onChange={setFieldValue}
                 onFocus={setFieldTouched}
                 maxLength={MAX_LENGTH}
               />
             </div>
-
-            {listSectionControls}
+            {listItemControls}
           </>
         )}
       </>
