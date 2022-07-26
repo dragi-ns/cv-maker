@@ -45,8 +45,7 @@ export const GeneralValidationSchema = {
     .transform((value) =>
       value instanceof Date && !isNaN(value) ? value : null
     )
-    .max(new Date(), 'Date of birth cannot be in the future!')
-    .required('Date of birth is required!'),
+    .max(new Date(), 'Date of birth cannot be in the future!'),
   gender: Yup.string().oneOf(GENDERS, 'Invalid gender!'),
   website: Yup.string().max(64, 'Website url too long!').url('Invalid url!'),
 };

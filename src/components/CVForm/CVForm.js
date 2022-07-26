@@ -10,9 +10,9 @@ import ObjectiveSection, {
   ObjectiveValidationSchema,
 } from './ObjectiveSection';
 import EducationSection, {
-  EducationInitialValues,
   EducationValidationSchema,
 } from './EducationSection';
+import WorkSection, { WorkValidationSchema } from './WorkSection';
 
 export default class CVForm extends Component {
   render() {
@@ -22,6 +22,7 @@ export default class CVForm extends Component {
           general: GeneralInitialValues,
           ...ObjectiveInitialValues,
           education: [],
+          work: [],
         }}
         validationSchema={Yup.object().shape({
           general: Yup.object().shape(GeneralValidationSchema),
@@ -29,6 +30,7 @@ export default class CVForm extends Component {
           education: Yup.array().of(
             Yup.object().shape(EducationValidationSchema)
           ),
+          work: Yup.array().of(Yup.object().shape(WorkValidationSchema)),
         })}
         onSubmit={(values) => {
           alert(JSON.stringify(values, null, 2));
@@ -38,6 +40,7 @@ export default class CVForm extends Component {
             <GeneralSection formik={props} />
             <ObjectiveSection formik={props} />
             <EducationSection formik={props} />
+            <WorkSection formik={props} />
             <button type="submit">Generate PDF</button>
           </Form>
         )}

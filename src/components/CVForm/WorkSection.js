@@ -3,21 +3,21 @@ import { EditorState } from 'draft-js';
 import { format } from 'date-fns';
 import { TextInput, RichInput } from '../inputs';
 import ListSection from './ListSection';
+import * as Yup from 'yup';
 import SectionControls from './SectionControls';
 import ListItemPreview from './ListItemPreview';
-import * as Yup from 'yup';
 
 const MAX_LENGTH = 256;
 
-export const EducationValidationSchema = {
-  school: Yup.string()
-    .min(2, 'School/Organization is too short!')
-    .max(64, 'School/Organization is too long!')
-    .required('School/Organization is required!'),
-  degree: Yup.string()
-    .min(2, 'Degree/Course is too short!')
-    .max(64, 'Degree/Course is too long!')
-    .required('Degree/Course is required!'),
+export const WorkValidationSchema = {
+  company: Yup.string()
+    .min(2, 'Company name is too short!')
+    .max(64, 'Company name is too long!')
+    .required('Company name is required!'),
+  jobTitle: Yup.string()
+    .min(2, 'Job title is too short!')
+    .max(64, 'Job title is too long!')
+    .required('Job title is required!'),
   startDate: Yup.date()
     .nullable()
     .transform((value) =>
@@ -37,41 +37,41 @@ export const EducationValidationSchema = {
           schema.min(startDate, 'End date cannot be before start date!')) ||
         schema
     ),
-  educationDescription: Yup.object().test(
+  workDescription: Yup.object().test(
     'max length',
-    'Education description is too long!',
+    'Work description is too long!',
     (value) => {
       return value.getCurrentContent().getPlainText('').length < MAX_LENGTH + 1;
     }
   ),
 };
 
-export const EducationInitialValues = {
-  school: '',
-  degree: '',
+export const WorkInitialValues = {
+  company: '',
+  jobTitle: '',
   startDate: '',
   endDate: '',
-  educationDescription: EditorState.createEmpty(),
+  workDescription: EditorState.createEmpty(),
 };
 
-export default class EducationSection extends Component {
+export default class WorkSection extends Component {
   render() {
     const { formik } = this.props;
 
     return (
       <ListSection
-        legend="Education"
-        fieldName="education"
-        field={formik.values.education}
+        legend="Work experience"
+        fieldName="work"
+        field={formik.values.work}
         formik={formik}
-        initialValues={EducationInitialValues}
-        InputComponent={EducationInputSection}
+        initialValues={WorkInitialValues}
+        InputComponent={WorkInputSection}
       />
     );
   }
 }
 
-class EducationInputSection extends Component {
+class WorkInputSection extends Component {
   constructor(props) {
     super(props);
     this.maxStartDate = format(new Date(), 'yyyy-MM-dd');
@@ -80,35 +80,35 @@ class EducationInputSection extends Component {
       minEndDate: this.maxStartDate,
     };
     this.toggleLocked = this.toggleLocked.bind(this);
-    this.isEducationValid = this.isEducationValid.bind(this);
+    this.isWorkValid = this.isWorkValid.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
   }
 
   async toggleLocked() {
     const { validateForm, setTouched, ...formik } = this.props.formik;
     await validateForm();
-    if (!this.isEducationValid()) {
-      const { education } = formik.touched;
-      const newEducation = education ? [...education] : [];
-      const oldTouched = newEducation[this.props.index];
+    if (!this.isWorkValid()) {
+      const { work } = formik.touched;
+      const newWork = work ? [...work] : [];
+      const oldTouched = newWork[this.props.index];
       if (oldTouched) {
-        newEducation[this.props.index] = {
+        newWork[this.props.index] = {
           ...oldTouched,
-          school: true,
-          degree: true,
+          company: true,
+          jobTitle: true,
           startDate: true,
         };
       } else {
-        newEducation[this.props.index] = {
-          school: true,
-          degree: true,
+        newWork[this.props.index] = {
+          company: true,
+          jobTitle: true,
           startDate: true,
         };
       }
 
       setTouched({
         ...formik.touched,
-        education: newEducation,
+        work: newWork,
       });
     } else {
       this.setState((prevState) => {
@@ -117,9 +117,9 @@ class EducationInputSection extends Component {
     }
   }
 
-  isEducationValid() {
+  isWorkValid() {
     const { errors } = this.props.formik;
-    return !errors.education || !errors.education[this.props.index];
+    return !errors.work || !errors.work[this.props.index];
   }
 
   handleStartDateChange(event) {
@@ -145,8 +145,8 @@ class EducationInputSection extends Component {
       <>
         {this.state.locked ? (
           <ListItemPreview
-            mainInfo={field[index].school}
-            subInfo={field[index].degree}
+            mainInfo={field[index].company}
+            subInfo={field[index].jobTitle}
             startDate={field[index].startDate}
             endDate={field[index].endDate}
             SectionControls={listSectionControls}
@@ -156,10 +156,10 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <div className="form-field col">
                 <TextInput
-                  label="School/Organization"
+                  label="Company name"
                   type="text"
-                  name={`education[${index}].school`}
-                  placeholder="New York University"
+                  name={`work[${index}].company`}
+                  placeholder="TOPCV Shop"
                 />
               </div>
             </div>
@@ -167,10 +167,10 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <div className="form-field col">
                 <TextInput
-                  label="Degree/Course"
+                  label="Job title"
                   type="text"
-                  name={`education[${index}].degree`}
-                  placeholder="Bachelor of Science"
+                  name={`work[${index}].jobTitle`}
+                  placeholder="Sales Manager"
                 />
               </div>
             </div>
@@ -180,7 +180,7 @@ class EducationInputSection extends Component {
                 <TextInput
                   label="Start date"
                   type="date"
-                  name={`education[${index}].startDate`}
+                  name={`work[${index}].startDate`}
                   max={this.maxStartDate}
                   onChange={this.handleStartDateChange}
                 />
@@ -190,7 +190,7 @@ class EducationInputSection extends Component {
                 <TextInput
                   label="End date"
                   type="date"
-                  name={`education[${index}].endDate`}
+                  name={`work[${index}].endDate`}
                   min={this.state.minEndDate}
                 />
               </div>
@@ -199,11 +199,9 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <RichInput
                 label="Description"
-                name={`education[${index}].educationDescription`}
-                editorState={field[index].educationDescription}
-                error={
-                  errors.education && errors.education.educationDescription
-                }
+                name={`work[${index}].workDescription`}
+                editorState={field[index].workDescription}
+                error={errors.work && errors.work[index].workDescription}
                 onChange={setFieldValue}
                 onFocus={setFieldTouched}
                 maxLength={MAX_LENGTH}

@@ -77,6 +77,10 @@ main {
   font-weight: 500;
 }
 
+.bold {
+  font-weight: 500;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -151,6 +155,12 @@ main {
   background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 10px;
+}
+
+.form-section .section-controls {
+  gap: 1rem;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .form-section legend {
@@ -297,12 +307,6 @@ main {
   bottom: -1.25rem;
 }
 
-.form-section .section-controls {
-  gap: 1rem;
-  flex: 1;
-  justify-content: flex-end;
-}
-
 /*
   Rich Editor
 */
@@ -355,27 +359,23 @@ main {
   Education preview
 */
 
-.education-preview {
+.list-item-preview {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
 }
 
-.education-preview:not(:last-of-type),
-.education-section .section-controls:not(:last-of-type) {
+.list-item-preview:not(:last-of-type),
+.form-section--list .section-controls:not(:last-of-type) {
   padding-bottom: 1.5rem;
   border-bottom: 2px solid #eaeaea;
 }
 
-.education-info {
+.list-item-info {
   gap: 0.25rem;
 }
 
-.school-name {
-  font-weight: 500;
-}
-
-.education-preview .section-controls {
+.list-item-preview .section-controls {
   align-self: flex-end;
 }
