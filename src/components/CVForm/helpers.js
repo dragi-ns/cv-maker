@@ -1,3 +1,13 @@
+import { format } from 'date-fns';
+
+export function formatPeriod(startDate, endDate) {
+  let formatedEndDate = 'Present';
+  if (endDate) {
+    formatedEndDate = format(new Date(endDate), 'MMM yyyy');
+  }
+  return `${format(new Date(startDate), 'MMM yyyy')} - ${formatedEndDate}`;
+}
+
 export async function toggleListItemLocked(
   formik,
   isSectionValid,

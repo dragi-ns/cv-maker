@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { EditorState } from 'draft-js';
 import { format } from 'date-fns';
+import * as Yup from 'yup';
 import { TextInput, RichInput } from '../inputs';
 import ListSection from './ListSection';
-import * as Yup from 'yup';
-import SectionControls from './SectionControls';
 import ListItemPreview from './ListItemPreview';
+import SectionControls from './SectionControls';
+import { formatPeriod, toggleListItemLocked } from './helpers';
 
 const MAX_LENGTH = 256;
 
@@ -26,10 +27,7 @@ export const WorkValidationSchema = {
     .max(new Date(), 'Start date cannot be in the future!')
     .required('Start date is required!'),
   endDate: Yup.date()
-    .nullable()
-    .transform((value) =>
-      value instanceof Date && !isNaN(value) ? value : null
-    )
+    .typeError('Invalid date!')
     .when(
       'startDate',
       (startDate, schema) =>
@@ -37,7 +35,7 @@ export const WorkValidationSchema = {
           schema.min(startDate, 'End date cannot be before start date!')) ||
         schema
     ),
-  workDescription: Yup.object().test(
+  description: Yup.object().test(
     'max length',
     'Work description is too long!',
     (value) => {
@@ -51,7 +49,7 @@ export const WorkInitialValues = {
   jobTitle: '',
   startDate: '',
   endDate: '',
-  workDescription: EditorState.createEmpty(),
+  description: EditorState.createEmpty(),
 };
 
 export default class WorkSection extends Component {
@@ -66,6 +64,7 @@ export default class WorkSection extends Component {
         formik={formik}
         initialValues={WorkInitialValues}
         InputComponent={WorkInputSection}
+        maxItems={5}
       />
     );
   }
@@ -85,32 +84,15 @@ class WorkInputSection extends Component {
   }
 
   async toggleLocked() {
-    const { validateForm, setTouched, ...formik } = this.props.formik;
-    await validateForm();
-    if (!this.isWorkValid()) {
-      const { work } = formik.touched;
-      const newWork = work ? [...work] : [];
-      const oldTouched = newWork[this.props.index];
-      if (oldTouched) {
-        newWork[this.props.index] = {
-          ...oldTouched,
-          company: true,
-          jobTitle: true,
-          startDate: true,
-        };
-      } else {
-        newWork[this.props.index] = {
-          company: true,
-          jobTitle: true,
-          startDate: true,
-        };
-      }
+    const toggle = await toggleListItemLocked(
+      this.props.formik,
+      this.isWorkValid,
+      'work',
+      this.props.index,
+      { company: true, jobTitle: true, startDate: true }
+    );
 
-      setTouched({
-        ...formik.touched,
-        work: newWork,
-      });
-    } else {
+    if (toggle) {
       this.setState((prevState) => {
         return { locked: !prevState.locked };
       });
@@ -133,23 +115,27 @@ class WorkInputSection extends Component {
     const { index, field, arrayHelpers } = this.props;
     const { errors, setFieldValue, setFieldTouched } = this.props.formik;
 
-    const listSectionControls = (
+    const listItemControls = (
       <SectionControls
         isList={true}
         index={index}
         arrayHelpers={arrayHelpers}
+        locked={this.state.locked}
         handleToggle={this.toggleLocked}
       />
     );
+
+    let period = null;
+    if (this.state.locked) {
+      period = formatPeriod(field[index].startDate, field[index].endDate);
+    }
     return (
       <>
         {this.state.locked ? (
           <ListItemPreview
-            mainInfo={field[index].company}
-            subInfo={field[index].jobTitle}
-            startDate={field[index].startDate}
-            endDate={field[index].endDate}
-            SectionControls={listSectionControls}
+            title={`${field[index].company}, ${field[index].jobTitle}`}
+            subtitle={period}
+            listItemControls={listItemControls}
           />
         ) : (
           <>
@@ -199,16 +185,15 @@ class WorkInputSection extends Component {
             <div className="form-row row">
               <RichInput
                 label="Description"
-                name={`work[${index}].workDescription`}
-                editorState={field[index].workDescription}
-                error={errors.work && errors.work[index].workDescription}
+                name={`work[${index}].description`}
+                editorState={field[index].description}
+                error={errors.work && errors.work[index].description}
                 onChange={setFieldValue}
                 onFocus={setFieldTouched}
                 maxLength={MAX_LENGTH}
               />
             </div>
-
-            {listSectionControls}
+            {listItemControls}
           </>
         )}
       </>
