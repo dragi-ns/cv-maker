@@ -1,15 +1,21 @@
 import { useField } from 'formik';
+import { format } from 'date-fns';
 import classNames from 'classnames';
 
 export default function TextInput({ label, locked, ...props }) {
-  // TODO: If input is date format output date when locked
   const [field, meta] = useField(props);
   return (
     <div className="form-field col">
       {locked ? (
         <>
           <p className="preview-name">{label.replace('*', '')}</p>
-          <p className="preview-value">{field.value || 'Not provided'}</p>
+          <p className="preview-value">
+            {field.value
+              ? props.type === 'date'
+                ? format(new Date(field.value), 'LL MMM, yyyy')
+                : field.value
+              : 'Not provided'}
+          </p>
         </>
       ) : (
         <>

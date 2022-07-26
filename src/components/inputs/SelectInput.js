@@ -10,7 +10,7 @@ export default function SelectInput({ label, locked, ...props }) {
           <p className="preview-name">{label.replace('*', '')}</p>
           <p className="preview-value">
             {field.value
-              ? props.children.find(
+              ? props.children[1].find(
                   (child) => child.props.value === field.value
                 ).props.children
               : 'Not provided'}

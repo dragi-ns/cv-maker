@@ -7,7 +7,10 @@ import SectionControls from './SectionControls';
 import * as Yup from 'yup';
 
 const PHONE_REGEX = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
-const GENDERS = ['male', 'female'];
+const GENDERS = [
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+];
 export const AVATAR_SUPPORTED_FORMATS = [
   'image/jpg',
   'image/jpeg',
@@ -41,12 +44,12 @@ export const GeneralValidationSchema = {
   city: Yup.string().max(64, 'City name is too long!'),
   country: Yup.string().max(64, 'Country name is too long!'),
   dateOfBirth: Yup.date()
-    .nullable()
-    .transform((value) =>
-      value instanceof Date && !isNaN(value) ? value : null
-    )
+    .typeError('Invalid date!')
     .max(new Date(), 'Date of birth cannot be in the future!'),
-  gender: Yup.string().oneOf(GENDERS, 'Invalid gender!'),
+  gender: Yup.string().oneOf(
+    GENDERS.map((gender) => gender.value),
+    'Invalid gender!'
+  ),
   website: Yup.string().max(64, 'Website url too long!').url('Invalid url!'),
 };
 
@@ -86,9 +89,6 @@ export default class GeneralSection extends Component {
     });
   }
 
-  // props.isSectionValid
-  // props.fieldName
-  // props.newTouched
   async toggleLocked() {
     const { validateForm, setTouched, ...formik } = this.props.formik;
     await validateForm();
@@ -220,8 +220,11 @@ export default class GeneralSection extends Component {
                 label="Gender"
                 name="general.gender">
                 <option value="">Select a gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                {GENDERS.map((gender, index) => (
+                  <option key={index} value={gender.value}>
+                    {gender.label}
+                  </option>
+                ))}
               </SelectInput>
             </div>
 
