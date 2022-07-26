@@ -13,6 +13,7 @@ import EducationSection, {
   EducationValidationSchema,
 } from './EducationSection';
 import WorkSection, { WorkValidationSchema } from './WorkSection';
+import SkillsSection, { SkillsValidationSchema } from './SkillsSection';
 
 export default class CVForm extends Component {
   render() {
@@ -23,6 +24,7 @@ export default class CVForm extends Component {
           ...ObjectiveInitialValues,
           education: [],
           work: [],
+          skills: [],
         }}
         validationSchema={Yup.object().shape({
           general: Yup.object().shape(GeneralValidationSchema),
@@ -31,6 +33,7 @@ export default class CVForm extends Component {
             Yup.object().shape(EducationValidationSchema)
           ),
           work: Yup.array().of(Yup.object().shape(WorkValidationSchema)),
+          skills: Yup.array().of(Yup.object().shape(SkillsValidationSchema)),
         })}
         onSubmit={(values) => {
           alert(JSON.stringify(values, null, 2));
@@ -41,6 +44,7 @@ export default class CVForm extends Component {
             <ObjectiveSection formik={props} />
             <EducationSection formik={props} />
             <WorkSection formik={props} />
+            <SkillsSection formik={props} />
             <button type="submit">Generate PDF</button>
           </Form>
         )}

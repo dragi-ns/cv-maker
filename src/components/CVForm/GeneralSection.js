@@ -86,6 +86,9 @@ export default class GeneralSection extends Component {
     });
   }
 
+  // props.isSectionValid
+  // props.fieldName
+  // props.newTouched
   async toggleLocked() {
     const { validateForm, setTouched, ...formik } = this.props.formik;
     await validateForm();

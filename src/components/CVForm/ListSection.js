@@ -6,8 +6,15 @@ import { Button } from '../buttons';
 
 export default class ListSection extends Component {
   render() {
-    const { legend, fieldName, field, formik, initialValues, InputComponent } =
-      this.props;
+    const {
+      legend,
+      fieldName,
+      field,
+      formik,
+      initialValues,
+      InputComponent,
+      maxItems,
+    } = this.props;
     const label = legend.toLowerCase();
 
     return (
@@ -34,7 +41,7 @@ export default class ListSection extends Component {
                 onClick={() =>
                   arrayHelpers.push({ ...initialValues, id: nanoid() })
                 }
-                disabled={field.length >= 5}
+                disabled={field.length >= maxItems}
               />
             </>
           )}

@@ -1,4 +1,5 @@
 import { useField } from 'formik';
+import classNames from 'classnames';
 
 export default function SelectInput({ label, locked, ...props }) {
   const [field, meta] = useField(props);
@@ -18,7 +19,14 @@ export default function SelectInput({ label, locked, ...props }) {
       ) : (
         <>
           <label htmlFor={props.id || props.name}>{label}</label>
-          <select id={props.id || props.name} {...field} {...props} />
+          <select
+            className={classNames({
+              invalid: meta.touched && meta.error,
+            })}
+            id={props.id || props.name}
+            {...field}
+            {...props}
+          />
           {meta.touched && meta.error ? (
             <p className="error">{meta.error}</p>
           ) : null}
