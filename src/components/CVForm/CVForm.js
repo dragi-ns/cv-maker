@@ -17,6 +17,7 @@ import SkillsSection, { SkillsValidationSchema } from './SkillsSection';
 import InterestsSection, {
   InterestsValidationSchema,
 } from './InterestsSection';
+import TraitsSection, { TraitsValidationSchema } from './TraitsSection';
 import { MdBuild, MdOutlineClear } from 'react-icons/md';
 import { Button } from '../buttons';
 
@@ -31,6 +32,7 @@ export default class CVForm extends Component {
           work: [],
           skills: [],
           interests: [],
+          traits: [],
         }}
         validationSchema={Yup.object().shape({
           general: Yup.object().shape(GeneralValidationSchema),
@@ -43,6 +45,7 @@ export default class CVForm extends Component {
           interests: Yup.array().of(
             Yup.object().shape(InterestsValidationSchema)
           ),
+          traits: Yup.array().of(Yup.object().shape(TraitsValidationSchema)),
         })}
         onSubmit={(values) => {
           alert(JSON.stringify(values, null, 2));
@@ -55,6 +58,7 @@ export default class CVForm extends Component {
             <WorkSection formik={props} />
             <SkillsSection formik={props} />
             <InterestsSection formik={props} />
+            <TraitsSection formik={props} />
             <div className="form-controls row">
               <Button data={{ icon: <MdOutlineClear />, label: 'Reset All' }} />
               <Button
