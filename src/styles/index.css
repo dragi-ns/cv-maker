@@ -125,6 +125,16 @@ main {
   transform: scale(0.97);
 }
 
+.btn--primary {
+  border: none;
+  color: #fefefe;
+  background-color: #3498db;
+}
+
+.btn--primary:not(:disabled):hover {
+  background-color: #2980b9;
+}
+
 .btn--secondary {
   border: none;
   background-color: #f1f1f1;
@@ -144,6 +154,10 @@ main {
   gap: 1.5rem;
   max-width: 940px;
   margin: 0 auto;
+}
+
+.form-controls {
+  justify-content: space-between;
 }
 
 .form-section {

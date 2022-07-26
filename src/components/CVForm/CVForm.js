@@ -14,6 +14,8 @@ import EducationSection, {
 } from './EducationSection';
 import WorkSection, { WorkValidationSchema } from './WorkSection';
 import SkillsSection, { SkillsValidationSchema } from './SkillsSection';
+import { MdBuild, MdOutlineClear } from 'react-icons/md';
+import { Button } from '../buttons';
 
 export default class CVForm extends Component {
   render() {
@@ -45,7 +47,14 @@ export default class CVForm extends Component {
             <EducationSection formik={props} />
             <WorkSection formik={props} />
             <SkillsSection formik={props} />
-            <button type="submit">Generate PDF</button>
+            <div className="form-controls row">
+              <Button data={{ icon: <MdOutlineClear />, label: 'Reset All' }} />
+              <Button
+                type="submit"
+                className="btn--primary"
+                data={{ icon: <MdBuild />, label: 'Generate PDF' }}
+              />
+            </div>
           </Form>
         )}
       </Formik>
