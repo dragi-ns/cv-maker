@@ -40,10 +40,13 @@ export const GeneralValidationSchema = {
   address: Yup.string().max(64, 'Address is too long!'),
   city: Yup.string().max(64, 'City name is too long!'),
   country: Yup.string().max(64, 'Country name is too long!'),
-  dateOfBirth: Yup.date('Invalid date!').max(
-    new Date(),
-    'Date of birth cannot be in the future!'
-  ),
+  dateOfBirth: Yup.date()
+    .nullable()
+    .transform((value) =>
+      value instanceof Date && !isNaN(value) ? value : null
+    )
+    .max(new Date(), 'Date of birth cannot be in the future!')
+    .required('Date of birth is required!'),
   gender: Yup.string().oneOf(GENDERS, 'Invalid gender!'),
   website: Yup.string().max(64, 'Website url too long!').url('Invalid url!'),
 };
