@@ -157,7 +157,7 @@ main {
   border-radius: 10px;
 }
 
-.form-section--list .section-controls {
+.form-section .section-controls {
   gap: 1rem;
   flex: 1;
   justify-content: flex-end;

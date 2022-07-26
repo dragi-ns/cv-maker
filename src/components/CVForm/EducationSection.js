@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { FieldArray } from 'formik';
 import { EditorState } from 'draft-js';
 import { format } from 'date-fns';
-import { nanoid } from 'nanoid';
-import {
-  MdOutlineAdd,
-  MdDeleteForever,
-  MdLockOpen,
-  MdLockOutline,
-} from 'react-icons/md';
 import { TextInput, RichInput } from '../inputs';
-import { Button, ToggleButton } from '../buttons';
+import ListSection from './ListSection';
+import SectionControls from './SectionControls';
+import ListItemPreview from './ListItemPreview';
 import * as Yup from 'yup';
 
 const MAX_LENGTH = 256;
@@ -62,38 +56,17 @@ export const EducationInitialValues = {
 
 export default class EducationSection extends Component {
   render() {
-    const { education } = this.props.formik.values;
+    const { formik } = this.props;
 
     return (
-      <fieldset className="form-section education-section">
-        <legend>Education</legend>
-        <FieldArray name="education">
-          {(arrayHelpers) => (
-            <>
-              {education &&
-                education.length > 0 &&
-                education.map((edu, index) => (
-                  <EducationInputSection
-                    key={edu.id}
-                    index={index}
-                    education={education}
-                    arrayHelpers={arrayHelpers}
-                    formik={this.props.formik}
-                  />
-                ))}
-              {education.length <= 0 && <p>No education provided.</p>}
-              <Button
-                data={{ icon: <MdOutlineAdd />, label: 'Add education' }}
-                className="btn--secondary"
-                onClick={() =>
-                  arrayHelpers.push({ ...EducationInitialValues, id: nanoid() })
-                }
-                disabled={education.length >= 5}
-              />
-            </>
-          )}
-        </FieldArray>
-      </fieldset>
+      <ListSection
+        legend="Education"
+        fieldName="education"
+        field={formik.values.education}
+        formik={formik}
+        initialValues={EducationInitialValues}
+        InputComponent={EducationInputSection}
+      />
     );
   }
 }
@@ -157,42 +130,27 @@ class EducationInputSection extends Component {
   }
 
   render() {
-    const { index, education, arrayHelpers } = this.props;
+    const { index, field, arrayHelpers } = this.props;
     const { errors, setFieldValue, setFieldTouched } = this.props.formik;
 
-    let startDate = null;
-    let endDate = null;
-    if (this.state.locked) {
-      ({ startDate, endDate } = education[index]);
-      startDate = format(new Date(startDate), 'LLL yyyy');
-      endDate = endDate ? format(new Date(endDate), 'LLL yyyy') : 'Present';
-    }
+    const listSectionControls = (
+      <SectionControls
+        isList={true}
+        index={index}
+        arrayHelpers={arrayHelpers}
+        handleToggle={this.toggleLocked}
+      />
+    );
     return (
       <>
         {this.state.locked ? (
-          <div className="education-preview row">
-            <div className="education-info col">
-              <p>
-                <span className="school-name">{education[index].school}</span>,{' '}
-                {education[index].degree}
-              </p>
-              <p className="duration">
-                {startDate} - {endDate}
-              </p>
-            </div>
-            <div className="section-controls row">
-              <Button
-                data={{ icon: <MdDeleteForever />, label: 'Delete' }}
-                onClick={() => arrayHelpers.remove(index)}
-              />
-              <ToggleButton
-                active={this.state.locked}
-                activeData={{ icon: <MdLockOpen />, label: 'Unlock' }}
-                inactiveData={{ icon: <MdLockOutline />, label: 'Lock' }}
-                onToggle={this.toggleLocked}
-              />
-            </div>
-          </div>
+          <ListItemPreview
+            mainInfo={field[index].school}
+            subInfo={field[index].degree}
+            startDate={field[index].startDate}
+            endDate={field[index].endDate}
+            SectionControls={listSectionControls}
+          />
         ) : (
           <>
             <div className="form-row row">
@@ -242,7 +200,7 @@ class EducationInputSection extends Component {
               <RichInput
                 label="Description"
                 name={`education[${index}].educationDescription`}
-                editorState={education[index].educationDescription}
+                editorState={field[index].educationDescription}
                 error={
                   errors.education && errors.education.educationDescription
                 }
@@ -252,18 +210,7 @@ class EducationInputSection extends Component {
               />
             </div>
 
-            <div className="section-controls row">
-              <Button
-                data={{ icon: <MdDeleteForever />, label: 'Delete' }}
-                onClick={() => arrayHelpers.remove(index)}
-              />
-              <ToggleButton
-                active={this.state.locked}
-                activeData={{ icon: <MdLockOpen />, label: 'Unlock' }}
-                inactiveData={{ icon: <MdLockOutline />, label: 'Lock' }}
-                onToggle={this.toggleLocked}
-              />
-            </div>
+            {listSectionControls}
           </>
         )}
       </>
