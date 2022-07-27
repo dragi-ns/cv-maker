@@ -187,7 +187,11 @@ class EducationInputSection extends Component {
                 label="Description"
                 name={`education[${index}].description`}
                 editorState={field[index].description}
-                error={errors.education && errors.education[index].description}
+                error={
+                  errors.education &&
+                  errors.education[index] &&
+                  errors.education[index].description
+                }
                 onChange={setFieldValue}
                 onFocus={setFieldTouched}
                 maxLength={MAX_LENGTH}

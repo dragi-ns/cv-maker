@@ -187,7 +187,11 @@ class WorkInputSection extends Component {
                 label="Description"
                 name={`work[${index}].description`}
                 editorState={field[index].description}
-                error={errors.work && errors.work[index].description}
+                error={
+                  errors.work &&
+                  errors.work[index] &&
+                  errors.work[index].description
+                }
                 onChange={setFieldValue}
                 onFocus={setFieldTouched}
                 maxLength={MAX_LENGTH}
