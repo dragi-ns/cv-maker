@@ -23,20 +23,7 @@ export const ObjectiveInitialValues = {
 export default class ObjectiveSection extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      locked: false,
-    };
-    this.toggleLocked = this.toggleLocked.bind(this);
     this.handleReset = this.handleReset.bind(this);
-  }
-
-  async toggleLocked() {
-    const { errors } = this.props.formik;
-    if (!errors.objective) {
-      this.setState((prevState) => {
-        return { locked: !prevState.locked };
-      });
-    }
   }
 
   handleReset() {
@@ -58,7 +45,6 @@ export default class ObjectiveSection extends Component {
           <RichInput
             label="Description"
             name="objective"
-            locked={this.state.locked}
             editorState={values.objective}
             error={errors.objective}
             onChange={setFieldValue}
@@ -66,11 +52,7 @@ export default class ObjectiveSection extends Component {
             maxLength={MAX_LENGTH}
           />
         </div>
-        <SectionControls
-          locked={this.state.locked}
-          handleReset={this.handleReset}
-          handleToggle={this.toggleLocked}
-        />
+        <SectionControls handleReset={this.handleReset} />
       </fieldset>
     );
   }

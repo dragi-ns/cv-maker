@@ -60,7 +60,10 @@ export default class CVForm extends Component {
             <InterestsSection formik={props} />
             <TraitsSection formik={props} />
             <div className="form-controls row">
-              <Button data={{ icon: <MdOutlineClear />, label: 'Reset All' }} />
+              <Button
+                data={{ icon: <MdOutlineClear />, label: 'Reset All' }}
+                onClick={props.handleReset}
+              />
               <Button
                 type="submit"
                 className="btn--primary"

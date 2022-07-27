@@ -87,7 +87,7 @@ export default class RichInput extends Component {
   }
 
   render() {
-    const { editorState, locked, label, error, maxLength } = this.props;
+    const { editorState, label, error, maxLength } = this.props;
 
     // If the user changes block type before entering any text,
     // we can hide the placeholder.
@@ -101,62 +101,39 @@ export default class RichInput extends Component {
 
     const charCount = this.constructor.getCharCount(editorState);
 
-    let previewHTML = null;
-    if (locked) {
-      if (charCount > 0) {
-        previewHTML = this.constructor.toHtml(editorState);
-      } else {
-        previewHTML = 'Not provided';
-      }
-    }
-
     return (
       <div className="form-field col">
-        {locked ? (
-          <>
-            <p className="preview-name">{label}</p>
-            <p
-              className="preview-value"
-              dangerouslySetInnerHTML={{
-                __html: previewHTML,
-              }}
+        <label>{label}</label>
+        <div className="rich-editor-root">
+          <div className="rich-editor-controls">
+            <InlineStyleControls
+              editorState={editorState}
+              handleToggle={this.toggleInlineStyle}
             />
-          </>
-        ) : (
-          <>
-            <label>{label}</label>
-            <div className="rich-editor-root">
-              <div className="rich-editor-controls">
-                <InlineStyleControls
-                  editorState={editorState}
-                  handleToggle={this.toggleInlineStyle}
-                />
-                <BlockStyleControls
-                  editorState={editorState}
-                  handleToggle={this.toggleBlockType}
-                />
-              </div>
-              <div className={className}>
-                <Editor
-                  editorState={editorState}
-                  onChange={this.handleChange}
-                  onFocus={this.handleFocus}
-                  handleKeyCommand={this.handleKeyCommand}
-                  keyBindingFn={this.mapKeyToEditorCommand}
-                  placeholder="Type your description here..."
-                />
-              </div>
-            </div>
-            <div className="rich-editor-indicators">
-              {error && (
-                <p className="rich-editor-error-indicator error">{error}</p>
-              )}
-              <p className="rich-editor-count-indicator">
-                {charCount}/{maxLength}
-              </p>
-            </div>
-          </>
-        )}
+            <BlockStyleControls
+              editorState={editorState}
+              handleToggle={this.toggleBlockType}
+            />
+          </div>
+          <div className={className}>
+            <Editor
+              editorState={editorState}
+              onChange={this.handleChange}
+              onFocus={this.handleFocus}
+              handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.mapKeyToEditorCommand}
+              placeholder="Type your description here..."
+            />
+          </div>
+        </div>
+        <div className="rich-editor-indicators">
+          {error && (
+            <p className="rich-editor-error-indicator error">{error}</p>
+          )}
+          <p className="rich-editor-count-indicator">
+            {charCount}/{maxLength}
+          </p>
+        </div>
       </div>
     );
   }

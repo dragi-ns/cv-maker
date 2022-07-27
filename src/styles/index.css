@@ -171,7 +171,7 @@ main {
   border-radius: 10px;
 }
 
-.form-section .section-controls {
+.form-section--list .section-controls--list {
   gap: 1rem;
   flex: 1;
   justify-content: flex-end;
@@ -269,14 +269,8 @@ main {
   flex: 0;
 }
 
-.form-field label,
-.preview-name {
+.form-field label {
   font-weight: 500;
-}
-
-.preview-value {
-  padding: 0.5rem 0.75rem 0.5rem 0;
-  word-break: break-word;
 }
 
 .form-field input[type='text'],
@@ -388,8 +382,4 @@ main {
 
 .list-item-info {
   gap: 0.25rem;
-}
-
-.list-item-preview .section-controls {
-  align-self: flex-end;
 }

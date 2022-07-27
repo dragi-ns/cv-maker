@@ -133,7 +133,7 @@ class EducationInputSection extends Component {
       <>
         {this.state.locked ? (
           <ListItemPreview
-            title={`${field[index].school}, ${field[index].degree}`}
+            title={[field[index].school, field[index].degree]}
             subtitle={period}
             listItemControls={listItemControls}
           />

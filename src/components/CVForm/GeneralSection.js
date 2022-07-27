@@ -72,12 +72,10 @@ export default class GeneralSection extends Component {
     super(props);
     this.state = {
       showAdditionalInformation: false,
-      locked: false,
     };
     this.maxDateOfBirth = format(new Date(), 'yyyy-MM-dd');
     this.toggleAdditionalInformation =
       this.toggleAdditionalInformation.bind(this);
-    this.toggleLocked = this.toggleLocked.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
 
@@ -87,31 +85,6 @@ export default class GeneralSection extends Component {
         showAdditionalInformation: !prevState.showAdditionalInformation,
       };
     });
-  }
-
-  async toggleLocked() {
-    const { validateForm, setTouched, ...formik } = this.props.formik;
-    await validateForm();
-    if (!this.isGeneralValid()) {
-      setTouched({
-        ...formik.touched,
-        general: {
-          ...formik.touched.general,
-          firstName: true,
-          lastName: true,
-          email: true,
-          phone: true,
-        },
-      });
-    } else {
-      this.setState((prevState) => {
-        return { locked: !prevState.locked };
-      });
-    }
-  }
-
-  isGeneralValid() {
-    return !this.props.formik.errors.general;
   }
 
   handleReset() {
@@ -132,7 +105,6 @@ export default class GeneralSection extends Component {
         <div className="form-row row">
           <AvatarInput
             name="general.avatar"
-            locked={this.state.locked}
             value={values.general.avatar}
             error={errors.general && errors.general.avatar}
             supprotedFormats={AVATAR_SUPPORTED_FORMATS.join(', ')}
@@ -141,7 +113,6 @@ export default class GeneralSection extends Component {
 
           <div className="form-full-name-container col">
             <TextInput
-              locked={this.state.locked}
               label="First Name*"
               type="text"
               name="general.firstName"
@@ -149,7 +120,6 @@ export default class GeneralSection extends Component {
             />
 
             <TextInput
-              locked={this.state.locked}
               label="Last Name*"
               type="text"
               name="general.lastName"
@@ -160,7 +130,6 @@ export default class GeneralSection extends Component {
 
         <div className="form-row row">
           <TextInput
-            locked={this.state.locked}
             label="Email address*"
             type="email"
             name="general.email"
@@ -168,7 +137,6 @@ export default class GeneralSection extends Component {
           />
 
           <TextInput
-            locked={this.state.locked}
             label="Phone number*"
             type="tel"
             name="general.phone"
@@ -180,7 +148,6 @@ export default class GeneralSection extends Component {
           <>
             <div className="form-row row">
               <TextInput
-                locked={this.state.locked}
                 label="Address"
                 type="text"
                 name="general.address"
@@ -190,7 +157,6 @@ export default class GeneralSection extends Component {
 
             <div className="form-row row">
               <TextInput
-                locked={this.state.locked}
                 label="City/Town"
                 type="text"
                 name="general.city"
@@ -198,7 +164,6 @@ export default class GeneralSection extends Component {
               />
 
               <TextInput
-                locked={this.state.locked}
                 label="Country"
                 type="text"
                 name="general.country"
@@ -208,17 +173,13 @@ export default class GeneralSection extends Component {
 
             <div className="form-row row">
               <TextInput
-                locked={this.state.locked}
                 label="Date of birth"
                 type="date"
                 name="general.dateOfBirth"
                 max={this.maxDateOfBirth}
               />
 
-              <SelectInput
-                locked={this.state.locked}
-                label="Gender"
-                name="general.gender">
+              <SelectInput label="Gender" name="general.gender">
                 <option value="">Select a gender</option>
                 {GENDERS.map((gender, index) => (
                   <option key={index} value={gender.value}>
@@ -230,7 +191,6 @@ export default class GeneralSection extends Component {
 
             <div className="form-row row">
               <TextInput
-                locked={this.state.locked}
                 label="Website"
                 type="url"
                 name="general.website"
@@ -252,11 +212,7 @@ export default class GeneralSection extends Component {
           className="btn--secondary"
           onToggle={this.toggleAdditionalInformation}
         />
-        <SectionControls
-          locked={this.state.locked}
-          handleReset={this.handleReset}
-          handleToggle={this.toggleLocked}
-        />
+        <SectionControls handleReset={this.handleReset} />
       </fieldset>
     );
   }

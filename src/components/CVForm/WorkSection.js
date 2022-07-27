@@ -133,53 +133,45 @@ class WorkInputSection extends Component {
       <>
         {this.state.locked ? (
           <ListItemPreview
-            title={`${field[index].company}, ${field[index].jobTitle}`}
+            title={[field[index].company, field[index].jobTitle]}
             subtitle={period}
             listItemControls={listItemControls}
           />
         ) : (
           <>
             <div className="form-row row">
-              <div className="form-field col">
-                <TextInput
-                  label="Company name"
-                  type="text"
-                  name={`work[${index}].company`}
-                  placeholder="TOPCV Shop"
-                />
-              </div>
+              <TextInput
+                label="Company name"
+                type="text"
+                name={`work[${index}].company`}
+                placeholder="TOPCV Shop"
+              />
             </div>
 
             <div className="form-row row">
-              <div className="form-field col">
-                <TextInput
-                  label="Job title"
-                  type="text"
-                  name={`work[${index}].jobTitle`}
-                  placeholder="Sales Manager"
-                />
-              </div>
+              <TextInput
+                label="Job title"
+                type="text"
+                name={`work[${index}].jobTitle`}
+                placeholder="Sales Manager"
+              />
             </div>
 
             <div className="form-row row">
-              <div className="form-field col">
-                <TextInput
-                  label="Start date"
-                  type="date"
-                  name={`work[${index}].startDate`}
-                  max={this.maxStartDate}
-                  onChange={this.handleStartDateChange}
-                />
-              </div>
+              <TextInput
+                label="Start date"
+                type="date"
+                name={`work[${index}].startDate`}
+                max={this.maxStartDate}
+                onChange={this.handleStartDateChange}
+              />
 
-              <div className="form-field col">
-                <TextInput
-                  label="End date"
-                  type="date"
-                  name={`work[${index}].endDate`}
-                  min={this.state.minEndDate}
-                />
-              </div>
+              <TextInput
+                label="End date"
+                type="date"
+                name={`work[${index}].endDate`}
+                min={this.state.minEndDate}
+              />
             </div>
 
             <div className="form-row row">

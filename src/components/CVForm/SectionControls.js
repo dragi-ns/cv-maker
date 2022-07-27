@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { Component } from 'react';
 import {
   MdLockOutline,
@@ -13,28 +14,34 @@ export default class SectionControls extends Component {
       this.props;
 
     return (
-      <div className="section-controls row">
+      <div
+        className={classNames({
+          row: true,
+          'section-controls': true,
+          'section-controls--list': isList,
+        })}>
         {isList ? (
-          <Button
-            data={{ icon: <MdDeleteForever />, label: 'Delete' }}
-            onClick={() => arrayHelpers.remove(index)}
-          />
+          <>
+            <Button
+              data={{ icon: <MdDeleteForever />, label: 'Delete' }}
+              onClick={() => arrayHelpers.remove(index)}
+            />
+
+            <ToggleButton
+              active={locked}
+              activeData={{ icon: <MdLockOpen />, label: 'Unlock' }}
+              inactiveData={{ icon: <MdLockOutline />, label: 'Lock' }}
+              onToggle={handleToggle}
+            />
+          </>
         ) : (
           <>
-            {!locked && (
-              <Button
-                data={{ icon: <MdOutlineClear />, label: 'Reset' }}
-                onClick={handleReset}
-              />
-            )}
+            <Button
+              data={{ icon: <MdOutlineClear />, label: 'Reset' }}
+              onClick={handleReset}
+            />
           </>
         )}
-        <ToggleButton
-          active={locked}
-          activeData={{ icon: <MdLockOpen />, label: 'Unlock' }}
-          inactiveData={{ icon: <MdLockOutline />, label: 'Lock' }}
-          onToggle={handleToggle}
-        />
       </div>
     );
   }

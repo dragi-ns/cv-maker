@@ -53,7 +53,7 @@ export default class AvatarInput extends Component {
   }
 
   render() {
-    const { id, name, locked, error, supportedFormats } = this.props;
+    const { id, name, error, supportedFormats } = this.props;
     return (
       <div className="form-avatar-container col">
         <div className="form-avatar">
@@ -61,30 +61,26 @@ export default class AvatarInput extends Component {
             {this.state.avatarImg ? (
               <>
                 <img src={this.state.avatarImg} alt="avatar" />
-                {!locked && (
-                  <div className="upload-edit col">
-                    <label className="btn" htmlFor={id || name}>
-                      Edit avatar
-                    </label>
-                    <button
-                      type="button"
-                      className="btn"
-                      onClick={this.handleAvatarRemove}>
-                      Remove avatar
-                    </button>
-                  </div>
-                )}
+                <div className="upload-edit col">
+                  <label className="btn" htmlFor={id || name}>
+                    Edit avatar
+                  </label>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={this.handleAvatarRemove}>
+                    Remove avatar
+                  </button>
+                </div>
               </>
             ) : (
               <>
                 <div className="upload-icon">
                   <MdAddAPhoto />
                 </div>
-                {!locked && (
-                  <label className="btn" htmlFor={id || name}>
-                    Add avatar (optional)
-                  </label>
-                )}
+                <label className="btn" htmlFor={id || name}>
+                  Add avatar (optional)
+                </label>
               </>
             )}
             <input

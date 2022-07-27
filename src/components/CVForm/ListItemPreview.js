@@ -5,23 +5,24 @@ export default class ListItemPreview extends Component {
   render() {
     const { title, subtitle, listItemControls } = this.props;
 
-    // const formatedStartDate = format(new Date(startDate), 'LLL yyyy');
-    // let formatedEndDate = endDate
-    //   ? format(new Date(endDate), 'LLL yyyy')
-    //   : 'Present';
-
     return (
       <div className="list-item-preview row">
         <div className="list-item-info col">
           <p className="list-item-title">
-            {title.split(',').map((value, index, array) => {
-              return (
-                <span key={index} className={classNames({ bold: index === 0 })}>
-                  {value}
-                  {index === 0 && array.length > 1 && ', '}
-                </span>
-              );
-            })}
+            {Array.isArray(title) ? (
+              title.map((value, index, array) => {
+                return (
+                  <span
+                    key={index}
+                    className={classNames({ bold: index === 0 })}>
+                    {value}
+                    {index === 0 && array.length > 1 && ', '}
+                  </span>
+                );
+              })
+            ) : (
+              <span className="bold">{title}</span>
+            )}
           </p>
           <p className="list-item-subtitle">{subtitle}</p>
         </div>
