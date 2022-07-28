@@ -104,6 +104,7 @@ main {
   font-weight: 500;
   font-size: 0.9rem;
   text-align: center;
+  text-decoration: none;
   transition: all 150ms ease;
 }
 
@@ -382,4 +383,72 @@ main {
 
 .list-item-info {
   gap: 0.25rem;
+}
+
+/*
+React PDF
+*/
+
+#modal .react-pdf__Page__canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+#modal .react-pdf__Page__textContent.textLayer {
+  display: none;
+}
+
+#modal .react-pdf__Page__annotations.annotationLayer {
+  display: none;
+}
+
+/**************************
+ * Modal                  *
+ **************************/
+
+.modal {
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-card {
+  width: 100%;
+  max-height: calc(100vh - 50px);
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+
+.modal-card-body {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+}
+
+.modal-card-footer {
+  border-top: 2px solid #eaeaea;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+
+@media (min-width: 45em) {
+  .modal-card {
+    width: 640px;
+  }
 }

@@ -7,7 +7,7 @@ import SectionControls from './SectionControls';
 import * as Yup from 'yup';
 
 const PHONE_REGEX = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
-const GENDERS = [
+export const GENDERS = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' },
 ];
@@ -107,7 +107,7 @@ export default class GeneralSection extends Component {
             name="general.avatar"
             value={values.general.avatar}
             error={errors.general && errors.general.avatar}
-            supprotedFormats={AVATAR_SUPPORTED_FORMATS.join(', ')}
+            supportedFormats={AVATAR_SUPPORTED_FORMATS.join(', ')}
             onChange={setFieldValue}
           />
 

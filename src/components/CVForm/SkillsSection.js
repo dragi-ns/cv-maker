@@ -6,7 +6,7 @@ import ListItemPreview from './ListItemPreview';
 import SectionControls from './SectionControls';
 import { toggleListItemLocked } from './helpers';
 
-const LEVELS = [
+export const LEVELS = [
   { value: 'beginner', label: 'Beginner' },
   { value: 'intermediate', label: 'Intermediate' },
   { value: 'skilful', label: 'Skilful' },

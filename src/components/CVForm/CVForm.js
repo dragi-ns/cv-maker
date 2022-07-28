@@ -47,8 +47,19 @@ export default class CVForm extends Component {
           ),
           traits: Yup.array().of(Yup.object().shape(TraitsValidationSchema)),
         })}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values, null, 2));
+        onSubmit={async (values) => {
+          if (values.general.avatar) {
+            const avatarBase64 = await new Promise((resolve, _) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result);
+              reader.readAsDataURL(values.general.avatar);
+            });
+            return await this.props.onSubmit({
+              ...values,
+              general: { ...values.general, avatar: avatarBase64 },
+            });
+          }
+          return await this.props.onSubmit(values);
         }}>
         {(props) => (
           <Form className="form">
@@ -67,7 +78,13 @@ export default class CVForm extends Component {
               <Button
                 type="submit"
                 className="btn--primary"
-                data={{ icon: <MdBuild />, label: 'Generate PDF' }}
+                disabled={props.isSubmitting}
+                data={{
+                  icon: <MdBuild />,
+                  label: props.isSubmitting
+                    ? 'Generating PDF...'
+                    : 'Generate PDF',
+                }}
               />
             </div>
           </Form>
