@@ -8,6 +8,8 @@ export default class ListSection extends Component {
   render() {
     const {
       legend,
+      addLabel,
+      emptyLabel,
       fieldName,
       field,
       formik,
@@ -15,7 +17,6 @@ export default class ListSection extends Component {
       InputComponent,
       maxItems,
     } = this.props;
-    const label = legend.toLowerCase();
 
     return (
       <fieldset className="form-section form-section--list">
@@ -34,9 +35,9 @@ export default class ListSection extends Component {
                     formik={formik}
                   />
                 ))}
-              {field.length <= 0 && <p>No {label} provided.</p>}
+              {field.length <= 0 && <p>{emptyLabel}</p>}
               <Button
-                data={{ icon: <MdOutlineAdd />, label: `Add ${label}` }}
+                data={{ icon: <MdOutlineAdd />, label: addLabel }}
                 className="btn--secondary"
                 onClick={() =>
                   arrayHelpers.push({ ...initialValues, id: nanoid() })

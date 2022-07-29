@@ -7,68 +7,29 @@ import ListSection from './ListSection';
 import ListItemPreview from './ListItemPreview';
 import SectionControls from './SectionControls';
 import { formatPeriod, toggleListItemLocked } from './helpers';
+import { withTranslation } from 'react-i18next';
 
-const MAX_LENGTH = 256;
-
-export const EducationValidationSchema = {
-  school: Yup.string()
-    .min(2, 'School/Organization is too short!')
-    .max(64, 'School/Organization is too long!')
-    .required('School/Organization is required!'),
-  degree: Yup.string()
-    .min(2, 'Degree/Course is too short!')
-    .max(64, 'Degree/Course is too long!')
-    .required('Degree/Course is required!'),
-  startDate: Yup.date()
-    .nullable()
-    .transform((value) =>
-      value instanceof Date && !isNaN(value) ? value : null
-    )
-    .max(new Date(), 'Start date cannot be in the future!')
-    .required('Start date is required!'),
-  endDate: Yup.date()
-    .typeError('Invalid date!')
-    .when(
-      'startDate',
-      (startDate, schema) =>
-        (startDate &&
-          schema.min(startDate, 'End date cannot be before start date!')) ||
-        schema
-    ),
-  description: Yup.object().test(
-    'max length',
-    'Education description is too long!',
-    (value) => {
-      return value.getCurrentContent().getPlainText('').length < MAX_LENGTH + 1;
-    }
-  ),
-};
-
-export const EducationInitialValues = {
-  school: '',
-  degree: '',
-  startDate: '',
-  endDate: '',
-  description: EditorState.createEmpty(),
-};
-
-export default class EducationSection extends Component {
+class EducationSection extends Component {
   render() {
-    const { formik } = this.props;
+    const { t, formik } = this.props;
 
     return (
       <ListSection
-        legend="Education"
+        legend={t('education.title')}
+        addLabel={t('education.addLabel')}
+        emptyLabel={t('education.emptyLabel')}
         fieldName="education"
         field={formik.values.education}
         formik={formik}
         initialValues={EducationInitialValues}
-        InputComponent={EducationInputSection}
+        InputComponent={EducationInputSectionTranslated}
         maxItems={5}
       />
     );
   }
 }
+
+export default withTranslation('form')(EducationSection);
 
 class EducationInputSection extends Component {
   constructor(props) {
@@ -112,8 +73,14 @@ class EducationInputSection extends Component {
   }
 
   render() {
-    const { index, field, arrayHelpers } = this.props;
-    const { errors, setFieldValue, setFieldTouched } = this.props.formik;
+    const { t, index, field, arrayHelpers } = this.props;
+    const {
+      errors,
+      setFieldValue,
+      setFieldTouched,
+      getFieldProps,
+      getFieldMeta,
+    } = this.props.formik;
 
     const listItemControls = (
       <SectionControls
@@ -142,10 +109,12 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <div className="form-field col">
                 <TextInput
-                  label="School/Organization"
+                  label={t('education.school.label')}
                   type="text"
                   name={`education[${index}].school`}
-                  placeholder="New York University"
+                  placeholder={t('education.school.placeholder')}
+                  getFieldProps={getFieldProps}
+                  getFieldMeta={getFieldMeta}
                 />
               </div>
             </div>
@@ -153,10 +122,12 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <div className="form-field col">
                 <TextInput
-                  label="Degree/Course"
+                  label={t('education.degree.label')}
                   type="text"
                   name={`education[${index}].degree`}
-                  placeholder="Bachelor of Science"
+                  placeholder={t('education.degree.placeholder')}
+                  getFieldProps={getFieldProps}
+                  getFieldMeta={getFieldMeta}
                 />
               </div>
             </div>
@@ -164,27 +135,31 @@ class EducationInputSection extends Component {
             <div className="form-row row">
               <div className="form-field col">
                 <TextInput
-                  label="Start date"
+                  label={t('education.startDate.label')}
                   type="date"
                   name={`education[${index}].startDate`}
                   max={this.maxStartDate}
                   onChange={this.handleStartDateChange}
+                  getFieldProps={getFieldProps}
+                  getFieldMeta={getFieldMeta}
                 />
               </div>
 
               <div className="form-field col">
                 <TextInput
-                  label="End date"
+                  label={t('education.endDate.label')}
                   type="date"
                   name={`education[${index}].endDate`}
                   min={this.state.minEndDate}
+                  getFieldProps={getFieldProps}
+                  getFieldMeta={getFieldMeta}
                 />
               </div>
             </div>
 
             <div className="form-row row">
               <RichInput
-                label="Description"
+                label={t('education.description.label')}
                 name={`education[${index}].description`}
                 editorState={field[index].description}
                 error={
@@ -204,3 +179,51 @@ class EducationInputSection extends Component {
     );
   }
 }
+
+const EducationInputSectionTranslated = withTranslation('form')(
+  EducationInputSection
+);
+
+const MAX_LENGTH = 256;
+
+export const EducationValidationSchema = {
+  school: Yup.string()
+    .min(2, 'education.school.error.tooShort')
+    .max(64, 'education.school.error.tooLong')
+    .required('education.school.error.required'),
+  degree: Yup.string()
+    .min(2, 'education.degree.error.tooShort')
+    .max(64, 'education.degree.error.tooLong')
+    .required('education.degree.error.required'),
+  startDate: Yup.date()
+    .nullable()
+    .transform((value) =>
+      value instanceof Date && !isNaN(value) ? value : null
+    )
+    .max(new Date(), 'education.startDate.error.tooLong')
+    .required('education.startDate.error.required'),
+  endDate: Yup.date()
+    .typeError('education.endDate.error.invalid')
+    .when(
+      'startDate',
+      (startDate, schema) =>
+        (startDate &&
+          schema.min(startDate, 'education.endDate.error.tooShort')) ||
+        schema
+    ),
+  description: Yup.object().test(
+    'max length',
+    'education.description.error.tooLong',
+    (value) => {
+      return value.getCurrentContent().getPlainText('').length < MAX_LENGTH + 1;
+    }
+  ),
+};
+
+export const EducationInitialValues = {
+  school: '',
+  degree: '',
+  startDate: '',
+  endDate: '',
+  description: EditorState.createEmpty(),
+};

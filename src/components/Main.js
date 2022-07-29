@@ -5,8 +5,9 @@ import { MdOutlineClear, MdDownload } from 'react-icons/md';
 import { CVForm } from './CVForm';
 import CVDocument from './CVDocument';
 import { pdf } from '@react-pdf/renderer';
+import { withTranslation } from 'react-i18next';
 
-export default class Main extends Component {
+class Main extends Component {
   constructor(props) {
     super(props);
 
@@ -36,6 +37,7 @@ export default class Main extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <main>
         {this.state.pdf && (
@@ -49,7 +51,7 @@ export default class Main extends Component {
               </div>
               <div className="modal-card-footer">
                 <Button
-                  data={{ icon: <MdOutlineClear />, label: 'Close' }}
+                  data={{ icon: <MdOutlineClear />, label: t('close') }}
                   onClick={() => this.setState({ pdf: null })}
                 />
                 <a
@@ -59,7 +61,7 @@ export default class Main extends Component {
                   <span className="icon">
                     <MdDownload />
                   </span>
-                  <span>Download PDF</span>
+                  <span>{t('downloadPdf')}</span>
                 </a>
               </div>
             </div>
@@ -70,3 +72,5 @@ export default class Main extends Component {
     );
   }
 }
+
+export default withTranslation('main')(Main);

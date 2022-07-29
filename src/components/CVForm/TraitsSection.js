@@ -5,35 +5,29 @@ import ListSection from './ListSection';
 import ListItemPreview from './ListItemPreview';
 import SectionControls from './SectionControls';
 import { toggleListItemLocked } from './helpers';
+import { withTranslation } from 'react-i18next';
 
-export const TraitsValidationSchema = {
-  trait: Yup.string()
-    .min(2, 'Trait name is too short')
-    .max(64, 'Trait name is too long!')
-    .required('Trait name is required!'),
-};
-
-export const TraitsInitalValues = {
-  trait: '',
-};
-
-export default class TraitsSection extends Component {
+class TraitsSection extends Component {
   render() {
-    const { formik } = this.props;
+    const { t, formik } = this.props;
 
     return (
       <ListSection
-        legend="Traits"
+        legend={t('traits.title')}
+        addLabel={t('traits.addLabel')}
+        emptyLabel={t('traits.emptyLabel')}
         fieldName="traits"
         field={formik.values.traits}
         formik={formik}
         initialValues={TraitsInitalValues}
-        InputComponent={TraitsInputs}
+        InputComponent={TraitsInputsTranslated}
         maxItems={10}
       />
     );
   }
 }
+
+export default withTranslation('form')(TraitsSection);
 
 class TraitsInputs extends Component {
   constructor(props) {
@@ -67,7 +61,8 @@ class TraitsInputs extends Component {
   }
 
   render() {
-    const { index, field, arrayHelpers } = this.props;
+    const { t, index, field, arrayHelpers } = this.props;
+    const { getFieldProps, getFieldMeta } = this.props.formik;
 
     const listItemControls = (
       <SectionControls
@@ -89,10 +84,12 @@ class TraitsInputs extends Component {
           <>
             <div className="form-row row">
               <TextInput
-                label="Trait"
+                label={t('traits.trait.label')}
                 type="text"
                 name={`traits[${index}].trait`}
-                placeholder="Technologically competent"
+                placeholder={t('traits.trait.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
             </div>
             {listItemControls}
@@ -102,3 +99,16 @@ class TraitsInputs extends Component {
     );
   }
 }
+
+const TraitsInputsTranslated = withTranslation('form')(TraitsInputs);
+
+export const TraitsValidationSchema = {
+  trait: Yup.string()
+    .min(2, 'traits.trait.error.tooShort')
+    .max(64, 'traits.trait.error.tooLong')
+    .required('traits.trait.error.required'),
+};
+
+export const TraitsInitalValues = {
+  trait: '',
+};

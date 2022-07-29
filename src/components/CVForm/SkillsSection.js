@@ -5,50 +5,29 @@ import ListSection from './ListSection';
 import ListItemPreview from './ListItemPreview';
 import SectionControls from './SectionControls';
 import { toggleListItemLocked } from './helpers';
+import { withTranslation } from 'react-i18next';
 
-export const LEVELS = [
-  { value: 'beginner', label: 'Beginner' },
-  { value: 'intermediate', label: 'Intermediate' },
-  { value: 'skilful', label: 'Skilful' },
-  { value: 'experienced', label: 'Experienced' },
-  { value: 'Expert', label: 'Expert' },
-];
-
-export const SkillsValidationSchema = {
-  skill: Yup.string()
-    .min(2, 'Skill name is too short')
-    .max(64, 'Skill name is too long!')
-    .required('Skill name is required!'),
-  level: Yup.string()
-    .oneOf(
-      LEVELS.map((level) => level.value),
-      'Invalid skill level!'
-    )
-    .required('Skill level is required!'),
-};
-
-export const SkillsInitalValues = {
-  skill: '',
-  level: '',
-};
-
-export default class SkillsSection extends Component {
+class SkillsSection extends Component {
   render() {
-    const { formik } = this.props;
+    const { t, formik } = this.props;
 
     return (
       <ListSection
-        legend="Skills"
+        legend={t('skills.title')}
+        addLabel={t('skills.addLabel')}
+        emptyLabel={t('skills.emptyLabel')}
         fieldName="skills"
         field={formik.values.skills}
         formik={formik}
         initialValues={SkillsInitalValues}
-        InputComponent={SkillsInputs}
+        InputComponent={SkillsInputsTranslated}
         maxItems={10}
       />
     );
   }
 }
+
+export default withTranslation('form')(SkillsSection);
 
 class SkillsInputs extends Component {
   constructor(props) {
@@ -82,7 +61,8 @@ class SkillsInputs extends Component {
   }
 
   render() {
-    const { index, field, arrayHelpers } = this.props;
+    const { t, index, field, arrayHelpers } = this.props;
+    const { getFieldProps, getFieldMeta } = this.props.formik;
 
     const listItemControls = (
       <SectionControls
@@ -98,25 +78,31 @@ class SkillsInputs extends Component {
         {this.state.locked ? (
           <ListItemPreview
             title={field[index].skill}
-            subtitle={
+            subtitle={t(
               LEVELS.find((level) => level.value === field[index].level).label
-            }
+            )}
             listItemControls={listItemControls}
           />
         ) : (
           <>
             <div className="form-row row">
               <TextInput
-                label="Skill"
+                label={t('skills.skill.label')}
                 type="text"
                 name={`skills[${index}].skill`}
-                placeholder="MS Word"
+                placeholder={t('skills.skill.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
-              <SelectInput label="Level" name={`skills[${index}].level`}>
-                <option value="">Select a level</option>
+              <SelectInput
+                label={t('skills.level.label')}
+                name={`skills[${index}].level`}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}>
+                <option value="">{t('skills.level.placeholder')}</option>
                 {LEVELS.map((level, levelIndex) => (
                   <option key={levelIndex} value={level.value}>
-                    {level.label}
+                    {t(level.label)}
                   </option>
                 ))}
               </SelectInput>
@@ -128,3 +114,31 @@ class SkillsInputs extends Component {
     );
   }
 }
+
+const SkillsInputsTranslated = withTranslation('form')(SkillsInputs);
+
+export const LEVELS = [
+  { value: 'beginner', label: 'skills.level.beginner' },
+  { value: 'intermediate', label: 'skills.level.intermediate' },
+  { value: 'skilful', label: 'skills.level.skilful' },
+  { value: 'experienced', label: 'skills.level.experienced' },
+  { value: 'expert', label: 'skills.level.expert' },
+];
+
+export const SkillsValidationSchema = {
+  skill: Yup.string()
+    .min(2, 'skills.skill.error.tooShort')
+    .max(64, 'skills.skill.error.tooLong')
+    .required('skills.skill.error.required'),
+  level: Yup.string()
+    .oneOf(
+      LEVELS.map((level) => level.value),
+      'skills.level.error.invalid'
+    )
+    .required('skills.level.error.required'),
+};
+
+export const SkillsInitalValues = {
+  skill: '',
+  level: '',
+};

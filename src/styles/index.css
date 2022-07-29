@@ -61,6 +61,17 @@ body,
   text-transform: uppercase;
 }
 
+.app-header .language-buttons {
+  padding-top: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-header .language-buttons > .btn {
+  text-transform: uppercase;
+}
+
 .app-footer {
   padding: 1rem;
   text-align: center;

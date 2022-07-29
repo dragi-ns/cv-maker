@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import {
   MdLockOutline,
   MdLockOpen,
@@ -8,10 +9,17 @@ import {
 } from 'react-icons/md';
 import { Button, ToggleButton } from '../buttons';
 
-export default class SectionControls extends Component {
+class SectionControls extends Component {
   render() {
-    const { isList, index, arrayHelpers, locked, handleReset, handleToggle } =
-      this.props;
+    const {
+      t,
+      isList,
+      index,
+      arrayHelpers,
+      locked,
+      handleReset,
+      handleToggle,
+    } = this.props;
 
     return (
       <div
@@ -23,21 +31,21 @@ export default class SectionControls extends Component {
         {isList ? (
           <>
             <Button
-              data={{ icon: <MdDeleteForever />, label: 'Delete' }}
+              data={{ icon: <MdDeleteForever />, label: t('delete') }}
               onClick={() => arrayHelpers.remove(index)}
             />
 
             <ToggleButton
               active={locked}
-              activeData={{ icon: <MdLockOpen />, label: 'Unlock' }}
-              inactiveData={{ icon: <MdLockOutline />, label: 'Lock' }}
+              activeData={{ icon: <MdLockOpen />, label: t('unlock') }}
+              inactiveData={{ icon: <MdLockOutline />, label: t('lock') }}
               onToggle={handleToggle}
             />
           </>
         ) : (
           <>
             <Button
-              data={{ icon: <MdOutlineClear />, label: 'Reset' }}
+              data={{ icon: <MdOutlineClear />, label: t('reset') }}
               onClick={handleReset}
             />
           </>
@@ -46,3 +54,5 @@ export default class SectionControls extends Component {
     );
   }
 }
+
+export default withTranslation('form')(SectionControls);

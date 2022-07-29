@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import { MdAddAPhoto } from 'react-icons/md';
 
-export default class AvatarInput extends Component {
+class AvatarInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +54,7 @@ export default class AvatarInput extends Component {
   }
 
   render() {
-    const { id, name, error, supportedFormats } = this.props;
+    const { t, id, name, error, accept } = this.props;
     return (
       <div className="form-avatar-container col">
         <div className="form-avatar">
@@ -63,13 +64,13 @@ export default class AvatarInput extends Component {
                 <img src={this.state.avatarImg} alt="avatar" />
                 <div className="upload-edit col">
                   <label className="btn" htmlFor={id || name}>
-                    Edit avatar
+                    {t('avatar.editAvatar')}
                   </label>
                   <button
                     type="button"
                     className="btn"
                     onClick={this.handleAvatarRemove}>
-                    Remove avatar
+                    {t('avatar.removeAvatar')}
                   </button>
                 </div>
               </>
@@ -79,7 +80,7 @@ export default class AvatarInput extends Component {
                   <MdAddAPhoto />
                 </div>
                 <label className="btn" htmlFor={id || name}>
-                  Add avatar (optional)
+                  {t('avatar.addAvatar')}
                 </label>
               </>
             )}
@@ -87,14 +88,16 @@ export default class AvatarInput extends Component {
               id={id || name}
               name={name || id}
               type="file"
-              accept={supportedFormats}
+              accept={accept}
               onChange={this.handleAvatarUpload}
               hidden
             />
           </div>
         </div>
-        {error && <p className="error">{error}</p>}
+        {error && <p className="error">{t(error)}</p>}
       </div>
     );
   }
 }
+
+export default withTranslation('form')(AvatarInput);

@@ -1,0 +1,257 @@
+{
+    "lock": "Zaključaj",
+    "unlock": "Otključaj",
+    "delete": "Obriši",
+    "reset": "Resetuj",
+    "resetAll": "Resetuj sve",
+    "generatePdf": "Generiši PDF",
+    "generatingPdf": "Generisanje PDF-a...",
+    "avatar": {
+        "addAvatar": "Dodaj avatar",
+        "editAvatar": "Promeni avatar",
+        "removeAvatar": "Ukloni avatar"
+    },
+    "richInput": {
+        "placeholder": "Unesite opis..."
+    },
+    "general": {
+        "title": "Opšte informacije",
+        "avatar": {
+            "error": {
+                "unsupportedFileType": "Nepodržan format datoteke!"
+            }
+        },
+        "firstName": {
+            "label": "Ime*",
+            "placeholder": "Unesite svoje ime...",
+            "error": {
+                "tooShort": "Ime je prekratko!",
+                "tooLong": "Ime je predugačko!",
+                "required": "Ime je obavezno!"
+            }
+        },
+        "lastName": {
+            "label": "Prezime*",
+            "placeholder": "Unesite svoje prezime...",
+            "error": {
+                "tooShort": "Prezime je prekratko!",
+                "tooLong": "Prezime je predugačko!",
+                "required": "Prezime je obavezno!"
+            }
+        },
+        "email": {
+            "label": "Mejl adresa*",
+            "placeholder": "Unesite svoju mejl adresu...",
+            "error": {
+                "invalid": "Mejl adresa je neispravna!",
+                "tooLong": "Mejl adresa je predugačka!",
+                "required": "Mejl adresa je obavezna!"
+            }
+        },
+        "phone": {
+            "label": "Broj telefona*",
+            "placeholder": "Unesite svoj broj telefona...",
+            "error": {
+                "invalid": "Broj telefona je neispravan!",
+                "required": "Broj telefona je obavezan!"
+            }
+        },
+        "address": {
+            "label": "Adresa",
+            "placeholder": "Unesite svoju adresu...",
+            "error": {
+                "tooLong": "Adresa je predugačka!"
+            }
+        },
+        "city": {
+            "label": "Grad",
+            "placeholder": "Unesite svoj grad...",
+            "error": {
+                "tooLong": "Ime grada je predugačko!"
+            }
+        },
+        "country": {
+            "label": "Država",
+            "placeholder": "Unesite svoju državu...",
+            "error": {
+                "tooLong": "Ime države je predugačko!"
+            }
+        },
+        "dateOfBirth": {
+            "label": "Datum rođenja",
+            "error": {
+                "invalid": "Datum rođenja je neispravan!",
+                "tooLong": "Datum rođenja ne može biti u budućnosti!"
+            }
+        },
+        "gender": {
+            "label": "Pol",
+            "placeholder": "Odaberite svoj pol",
+            "male": "Muško",
+            "female": "Žensko",
+            "error": {
+                "invalid": "Pol je neispravan!"
+            }
+        },
+        "website": {
+            "label": "Vebsajt adresa",
+            "placeholder": "Unesite svoju vebsajt adresu...",
+            "error": {
+                "invalid": "Vebsajt adresa je neispravna!",
+                "tooLong": "Vebsajt adresa je predugačka!"
+            }
+        },
+        "showAdditionalInformation": "Prikaži dodatne informacije",
+        "hideAdditionalInformation": "Sakrij dodatne informacije"
+    },
+    "objective": {
+        "title": "Cilj",
+        "description": {
+            "label": "Opis",
+            "error": {
+                "tooLong": "Opis je predugačak!"
+            }
+        }
+    },
+    "education": {
+        "title": "Obrazovanje",
+        "addLabel": "Dodajte obrazovanje",
+        "emptyLabel": "Nije navedeno obrazovanje.",
+        "school": {
+            "label": "Škola/Organizacija",
+            "placeholder": "Unesite školu ili organizaciju...",
+            "error": {
+                "tooShort": "Ime škole/organizacije je prekratko!",
+                "tooLong": "Ime škole/organizacije je predugačko!",
+                "required": "Ime škole/organizacije je obavezno!"
+            }
+        },
+        "degree": {
+            "label": "Školska sprema/Kurs",
+            "placeholder": "Unesite školsku spremu ili kurs...",
+            "error": {
+                "tooShort": "Ime školske spreme/kursa je prekratko!",
+                "tooLong": "Ime školske spreme/kursa je predugačko!",
+                "required": "Ime školske spreme/kursa je obavezno!"
+            }
+        },
+        "startDate": {
+            "label": "Datum početka",
+            "error": {
+                "tooLong": "Datum početka ne može biti u budućnosti!",
+                "required": "Datum početka je obavezan!"
+            }
+        },
+        "endDate": {
+            "label": "Datum završetka",
+            "error": {
+                "invalid": "Datum završetka je neispravan!",
+                "tooShort": "Datum završetka ne može da bude pre datuma početka!"
+            }
+        },
+        "description": {
+            "label": "Opis",
+            "error": {
+                "tooLong": "Opis je predugačak!"
+            }
+        }
+    },
+    "work": {
+        "title": "Radno iskustvo",
+        "addLabel": "Dodajte radno iskustvo",
+        "emptyLabel": "Nije navedeno radno iskustvo.",
+        "company": {
+            "label": "Kompanija",
+            "placeholder": "Unesite ime kompanije...",
+            "error": {
+                "tooShort": "Ime kompanije je prekratko!",
+                "tooLong": "Ime kompanije je predugačko!",
+                "required": "Ime kompanije je obavezno!"
+            }
+        },
+        "jobTitle": {
+            "label": "Pozicija",
+            "placeholder": "Unesite poziciju...",
+            "error": {
+                "tooShort": "Ime pozicije je prekratko!",
+                "tooLong": "Ime pozicije je predugačko!",
+                "required": "Ime pozicije je obavezno!"
+            }
+        },
+        "startDate": {
+            "label": "Datum početka",
+            "error": {
+                "tooLong": "Datum početka ne može biti u budućnosti!",
+                "required": "Datum početka je obavezan!"
+            }
+        },
+        "endDate": {
+            "label": "Datum završetka",
+            "error": {
+                "invalid": "Datum završetka je neispravan!",
+                "tooShort": "Datum završetka ne može da bude pre datuma početka!"
+            }
+        },
+        "description": {
+            "label": "Opis",
+            "error": {
+                "tooLong": "Opis je predugačak!"
+            }
+        }
+    },
+    "skills": {
+        "title": "Veštine",
+        "addLabel": "Dodajte veštinu",
+        "emptyLabel": "Nisu navedne veštine.",
+        "skill": {
+            "label": "Veština",
+            "placeholder": "Unesite ime veštine...",
+            "error": {
+                "tooShort": "Ime veštine je prekratko!",
+                "tooLong": "Ime veštine je predugačko!!",
+                "required": "Ime veštine je obavezno!"
+            }
+        },
+        "level": {
+            "label": "Nivo",
+            "placeholder": "Odaberite nivo",
+            "beginner": "Početnik",
+            "intermediate": "Srednji",
+            "skilful": "Vešt",
+            "experienced": "Iskusan",
+            "expert": "Stručan",
+            "error": {
+                "invalid": "Nivo je neispravan!",
+                "required": "Nivo je obavezan!"
+            }
+        }
+    },
+    "interests": {
+        "title": "Interesovanja",
+        "addLabel": "Dodajte interesovanje",
+        "emptyLabel": "Nisu navedena interesovanja.",
+        "interest": {
+            "label": "Interesovanje",
+            "placeholder": "Unesite naziv interesovanja...",
+            "error": {
+                "tooShort": "Naziv interesovanja je prekratak!",
+                "tooLong": "Naziv interesovanja je predugačak!",
+                "required": "Naziv interesovanja je obavezan!"
+            }
+        }
+    },
+    "traits": {
+        "title": "Osobine",
+        "addLabel": "Dodajte osobinu",
+        "emptyLabel": "Nisu navedne osobine.",
+        "trait": {
+            "label": "Osobina",
+            "placeholder": "Unesite naziv osobine...",
+            "error": {
+                "tooShort": "Naziv osobine je prekratak!",
+                "tooLong": "Naziv osobine je predugačak!",
+                "required": "Naziv osobine je obavezan!"
+            }
+        }
+    }
+}

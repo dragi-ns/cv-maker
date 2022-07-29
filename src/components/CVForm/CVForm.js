@@ -20,9 +20,11 @@ import InterestsSection, {
 import TraitsSection, { TraitsValidationSchema } from './TraitsSection';
 import { MdBuild, MdOutlineClear } from 'react-icons/md';
 import { Button } from '../buttons';
+import { withTranslation } from 'react-i18next';
 
-export default class CVForm extends Component {
+class CVForm extends Component {
   render() {
+    const { t } = this.props;
     return (
       <Formik
         initialValues={{
@@ -72,7 +74,7 @@ export default class CVForm extends Component {
             <TraitsSection formik={props} />
             <div className="form-controls row">
               <Button
-                data={{ icon: <MdOutlineClear />, label: 'Reset All' }}
+                data={{ icon: <MdOutlineClear />, label: t('resetAll') }}
                 onClick={props.handleReset}
               />
               <Button
@@ -82,8 +84,8 @@ export default class CVForm extends Component {
                 data={{
                   icon: <MdBuild />,
                   label: props.isSubmitting
-                    ? 'Generating PDF...'
-                    : 'Generate PDF',
+                    ? t('generatingPdf')
+                    : t('generatePdf'),
                 }}
               />
             </div>
@@ -93,3 +95,5 @@ export default class CVForm extends Component {
     );
   }
 }
+
+export default withTranslation('form')(CVForm);

@@ -5,69 +5,9 @@ import { TextInput, SelectInput, AvatarInput } from '../inputs';
 import { ToggleButton } from '../buttons';
 import SectionControls from './SectionControls';
 import * as Yup from 'yup';
+import { withTranslation } from 'react-i18next';
 
-const PHONE_REGEX = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
-export const GENDERS = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' },
-];
-export const AVATAR_SUPPORTED_FORMATS = [
-  'image/jpg',
-  'image/jpeg',
-  'image/gif',
-  'image/png',
-];
-
-export const GeneralValidationSchema = {
-  avatar: Yup.mixed().test('fileFormat', 'Unsupported file type!', (value) => {
-    if (value && value.type) {
-      return AVATAR_SUPPORTED_FORMATS.includes(value.type);
-    }
-    return true;
-  }),
-  firstName: Yup.string()
-    .min(2, 'First name is too short!')
-    .max(50, 'First name is too long!')
-    .required('First name is required!'),
-  lastName: Yup.string()
-    .min(2, 'Last name is too short!')
-    .max(50, 'Last name is too long!')
-    .required('Last name is required!'),
-  email: Yup.string()
-    .email('Invalid email address!')
-    .max(64, 'Email address is too long!')
-    .required('Email address is required!'),
-  phone: Yup.string()
-    .matches(PHONE_REGEX, 'Invalid phone number!')
-    .required('Phone number is required!'),
-  address: Yup.string().max(64, 'Address is too long!'),
-  city: Yup.string().max(64, 'City name is too long!'),
-  country: Yup.string().max(64, 'Country name is too long!'),
-  dateOfBirth: Yup.date()
-    .typeError('Invalid date!')
-    .max(new Date(), 'Date of birth cannot be in the future!'),
-  gender: Yup.string().oneOf(
-    GENDERS.map((gender) => gender.value),
-    'Invalid gender!'
-  ),
-  website: Yup.string().max(64, 'Website url too long!').url('Invalid url!'),
-};
-
-export const GeneralInitialValues = {
-  avatar: null,
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  address: '',
-  city: '',
-  country: '',
-  dateOfBirth: '',
-  gender: '',
-  website: '',
-};
-
-export default class GeneralSection extends Component {
+class GeneralSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -98,49 +38,60 @@ export default class GeneralSection extends Component {
   }
 
   render() {
-    const { values, errors, setFieldValue } = this.props.formik;
+    const { t, formik } = this.props;
+    const { values, errors, setFieldValue, getFieldProps, getFieldMeta } =
+      formik;
+
     return (
       <fieldset className="form-section">
-        <legend>General Information</legend>
+        <legend>{t('general.title')}</legend>
         <div className="form-row row">
           <AvatarInput
             name="general.avatar"
             value={values.general.avatar}
             error={errors.general && errors.general.avatar}
-            supportedFormats={AVATAR_SUPPORTED_FORMATS.join(', ')}
+            accept={AVATAR_SUPPORTED_FORMATS.join(', ')}
             onChange={setFieldValue}
           />
 
           <div className="form-full-name-container col">
             <TextInput
-              label="First Name*"
+              label={t('general.firstName.label')}
               type="text"
               name="general.firstName"
-              placeholder="Jane"
+              placeholder={t('general.firstName.placeholder')}
+              getFieldProps={getFieldProps}
+              getFieldMeta={getFieldMeta}
             />
 
             <TextInput
-              label="Last Name*"
+              label={t('general.lastName.label')}
               type="text"
               name="general.lastName"
-              placeholder="Doe"
+              placeholder={t('general.lastName.placeholder')}
+              getFieldProps={getFieldProps}
+              getFieldMeta={getFieldMeta}
             />
           </div>
         </div>
 
         <div className="form-row row">
           <TextInput
-            label="Email address*"
+            label={t('general.email.label')}
             type="email"
             name="general.email"
-            placeholder="jane.doe@example.com"
+            placeholder={t('general.email.placeholder')}
+            getFieldProps={getFieldProps}
+            getFieldMeta={getFieldMeta}
           />
 
           <TextInput
-            label="Phone number*"
+            label={t('general.phone.label')}
             type="tel"
             name="general.phone"
-            placeholder="061234567"
+            placeholder={t('general.phone.placeholder')}
+            getFieldProps={getFieldProps}
+            getFieldMeta={getFieldMeta}
           />
         </div>
 
@@ -148,42 +99,54 @@ export default class GeneralSection extends Component {
           <>
             <div className="form-row row">
               <TextInput
-                label="Address"
+                label={t('general.address.label')}
                 type="text"
                 name="general.address"
-                placeholder="123 Main Street"
+                placeholder={t('general.address.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
             </div>
 
             <div className="form-row row">
               <TextInput
-                label="City/Town"
+                label={t('general.city.label')}
                 type="text"
                 name="general.city"
-                placeholder="New York"
+                placeholder={t('general.city.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
 
               <TextInput
-                label="Country"
+                label={t('general.country.label')}
                 type="text"
                 name="general.country"
-                placeholder="USA"
+                placeholder={t('general.country.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
             </div>
 
             <div className="form-row row">
               <TextInput
-                label="Date of birth"
+                label={t('general.dateOfBirth.label')}
                 type="date"
                 name="general.dateOfBirth"
                 max={this.maxDateOfBirth}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
 
-              <SelectInput label="Gender" name="general.gender">
-                <option value="">Select a gender</option>
+              <SelectInput
+                label={t('general.gender.label')}
+                name="general.gender"
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}>
+                <option value="">{t('general.gender.placeholder')}</option>
                 {GENDERS.map((gender, index) => (
                   <option key={index} value={gender.value}>
-                    {gender.label}
+                    {t(gender.label)}
                   </option>
                 ))}
               </SelectInput>
@@ -191,10 +154,12 @@ export default class GeneralSection extends Component {
 
             <div className="form-row row">
               <TextInput
-                label="Website"
+                label={t('general.website.label')}
                 type="url"
                 name="general.website"
-                placeholder="https://janedoe.io"
+                placeholder={t('general.website.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
             </div>
           </>
@@ -203,11 +168,11 @@ export default class GeneralSection extends Component {
           active={this.state.showAdditionalInformation}
           activeData={{
             icon: <MdRemove />,
-            label: 'Hide additional information',
+            label: t('general.hideAdditionalInformation'),
           }}
           inactiveData={{
             icon: <MdOutlineAdd />,
-            label: 'Show additional information',
+            label: t('general.showAdditionalInformation'),
           }}
           className="btn--secondary"
           onToggle={this.toggleAdditionalInformation}
@@ -217,3 +182,72 @@ export default class GeneralSection extends Component {
     );
   }
 }
+
+export default withTranslation('form')(GeneralSection);
+
+const PHONE_REGEX = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+export const GENDERS = [
+  { value: 'male', label: 'general.gender.male' },
+  { value: 'female', label: 'general.gender.female' },
+];
+export const AVATAR_SUPPORTED_FORMATS = [
+  'image/jpg',
+  'image/jpeg',
+  'image/gif',
+  'image/png',
+];
+
+export const GeneralValidationSchema = {
+  avatar: Yup.mixed().test(
+    'file format',
+    'general.avatar.error.unsupportedFileType',
+    (value) => {
+      if (value && value.type) {
+        return AVATAR_SUPPORTED_FORMATS.includes(value.type);
+      }
+      return true;
+    }
+  ),
+  firstName: Yup.string()
+    .min(2, 'general.firstName.error.tooShort')
+    .max(50, 'general.firstName.error.tooLong')
+    .required('general.firstName.error.required'),
+  lastName: Yup.string()
+    .min(2, 'general.lastName.error.tooShort')
+    .max(50, 'general.lastName.error.tooLong')
+    .required('general.lastName.error.required'),
+  email: Yup.string()
+    .email('general.email.error.invalid')
+    .max(64, 'general.email.error.tooLong')
+    .required('general.email.error.required'),
+  phone: Yup.string()
+    .matches(PHONE_REGEX, 'general.phone.error.invalid')
+    .required('general.phone.error.required'),
+  address: Yup.string().max(64, 'general.address.error.tooLong'),
+  city: Yup.string().max(64, 'general.city.error.tooLong'),
+  country: Yup.string().max(64, 'general.country.error.tooLong'),
+  dateOfBirth: Yup.date()
+    .typeError('general.dateOfBirth.error.invalid')
+    .max(new Date(), 'general.dateOfBirth.error.tooLong'),
+  gender: Yup.string().oneOf(
+    GENDERS.map((gender) => gender.value),
+    'general.gender.error.invalid'
+  ),
+  website: Yup.string()
+    .max(64, 'general.website.error.tooLong')
+    .url('general.website.error.invalid'),
+};
+
+export const GeneralInitialValues = {
+  avatar: null,
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  address: '',
+  city: '',
+  country: '',
+  dateOfBirth: '',
+  gender: '',
+  website: '',
+};

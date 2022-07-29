@@ -3,24 +3,9 @@ import { EditorState } from 'draft-js';
 import * as Yup from 'yup';
 import { RichInput } from '../inputs';
 import SectionControls from './SectionControls';
+import { withTranslation } from 'react-i18next';
 
-export const MAX_LENGTH = 256;
-
-export const ObjectiveValidationSchema = {
-  objective: Yup.object().test(
-    'max length',
-    'Description is too long!',
-    (value) => {
-      return value.getCurrentContent().getPlainText('').length < MAX_LENGTH + 1;
-    }
-  ),
-};
-
-export const ObjectiveInitialValues = {
-  objective: EditorState.createEmpty(),
-};
-
-export default class ObjectiveSection extends Component {
+class ObjectiveSection extends Component {
   constructor(props) {
     super(props);
     this.handleReset = this.handleReset.bind(this);
@@ -36,14 +21,15 @@ export default class ObjectiveSection extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const { values, errors, setFieldValue, setFieldTouched } =
       this.props.formik;
     return (
       <fieldset className="form-section">
-        <legend>Objective/Goal</legend>
+        <legend>{t('objective.title')}</legend>
         <div className="form-row row">
           <RichInput
-            label="Description"
+            label={t('objective.description.label')}
             name="objective"
             editorState={values.objective}
             error={errors.objective}
@@ -57,3 +43,21 @@ export default class ObjectiveSection extends Component {
     );
   }
 }
+
+export default withTranslation('form')(ObjectiveSection);
+
+export const MAX_LENGTH = 256;
+
+export const ObjectiveValidationSchema = {
+  objective: Yup.object().test(
+    'max length',
+    'objective.description.error.tooLong',
+    (value) => {
+      return value.getCurrentContent().getPlainText('').length < MAX_LENGTH + 1;
+    }
+  ),
+};
+
+export const ObjectiveInitialValues = {
+  objective: EditorState.createEmpty(),
+};

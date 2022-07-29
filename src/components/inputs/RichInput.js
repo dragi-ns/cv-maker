@@ -1,10 +1,5 @@
 import { Component } from 'react';
-import {
-  Editor,
-  RichUtils,
-  getDefaultKeyBinding,
-  convertToRaw,
-} from 'draft-js';
+import { Editor, RichUtils, convertToRaw } from 'draft-js';
 import {
   MdFormatBold,
   MdOutlineFormatItalic,
@@ -16,14 +11,14 @@ import { Button } from '../buttons';
 import classNames from 'classnames';
 import draftToHtml from 'draftjs-to-html';
 import 'draft-js/dist/Draft.css';
+import { withTranslation } from 'react-i18next';
 
-export default class RichInput extends Component {
+class RichInput extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.mapKeyToEditorCommand = this.mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this.toggleBlockType.bind(this);
     this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
   }
@@ -50,22 +45,6 @@ export default class RichInput extends Component {
     return 'not-handled';
   }
 
-  // Gives us a way to make nested lists of 'maxDepth' (1 in this case)
-  mapKeyToEditorCommand(event) {
-    if (event.keyCode === 9 /* TAB */) {
-      const newEditorState = RichUtils.onTab(
-        event,
-        this.props.editorState,
-        1 /* maxDepth */
-      );
-      if (newEditorState !== this.props.editorState) {
-        this.handleChange(newEditorState);
-      }
-      return;
-    }
-    return getDefaultKeyBinding(event);
-  }
-
   toggleBlockType(blockType) {
     this.handleChange(
       RichUtils.toggleBlockType(this.props.editorState, blockType)
@@ -87,7 +66,7 @@ export default class RichInput extends Component {
   }
 
   render() {
-    const { editorState, label, error, maxLength } = this.props;
+    const { t, editorState, label, error, maxLength } = this.props;
 
     // If the user changes block type before entering any text,
     // we can hide the placeholder.
@@ -121,14 +100,13 @@ export default class RichInput extends Component {
               onChange={this.handleChange}
               onFocus={this.handleFocus}
               handleKeyCommand={this.handleKeyCommand}
-              keyBindingFn={this.mapKeyToEditorCommand}
-              placeholder="Type your description here..."
+              placeholder={t('richInput.placeholder')}
             />
           </div>
         </div>
         <div className="rich-editor-indicators">
           {error && (
-            <p className="rich-editor-error-indicator error">{error}</p>
+            <p className="rich-editor-error-indicator error">{t(error)}</p>
           )}
           <p className="rich-editor-count-indicator">
             {charCount}/{maxLength}
@@ -138,6 +116,8 @@ export default class RichInput extends Component {
     );
   }
 }
+
+export default withTranslation('form')(RichInput);
 
 class ControlButton extends Component {
   constructor(props) {
@@ -175,23 +155,26 @@ const INLINE_STYLES = [
   },
 ];
 
-function InlineStyleControls(props) {
-  const currentStyle = props.editorState.getCurrentInlineStyle();
+class InlineStyleControls extends Component {
+  render() {
+    const { editorState, handleToggle } = this.props;
+    const currentStyle = editorState.getCurrentInlineStyle();
 
-  return (
-    <>
-      {INLINE_STYLES.map((type) => (
-        <ControlButton
-          key={type.label}
-          icon={type.icon}
-          label={type.label}
-          style={type.style}
-          active={currentStyle.has(type.style)}
-          onToggle={props.handleToggle}
-        />
-      ))}
-    </>
-  );
+    return (
+      <>
+        {INLINE_STYLES.map((type) => (
+          <ControlButton
+            key={type.label}
+            icon={type.icon}
+            label={type.label}
+            style={type.style}
+            active={currentStyle.has(type.style)}
+            onToggle={handleToggle}
+          />
+        ))}
+      </>
+    );
+  }
 }
 
 const BLOCK_STYLES = [
@@ -207,26 +190,28 @@ const BLOCK_STYLES = [
   },
 ];
 
-function BlockStyleControls(props) {
-  const { editorState } = props;
-  const selection = editorState.getSelection();
-  const blockType = editorState
-    .getCurrentContent()
-    .getBlockForKey(selection.getStartKey())
-    .getType();
+class BlockStyleControls extends Component {
+  render() {
+    const { editorState, handleToggle } = this.props;
+    const selection = editorState.getSelection();
+    const blockType = editorState
+      .getCurrentContent()
+      .getBlockForKey(selection.getStartKey())
+      .getType();
 
-  return (
-    <>
-      {BLOCK_STYLES.map((type) => (
-        <ControlButton
-          key={type.label}
-          icon={type.icon}
-          label={type.label}
-          style={type.style}
-          active={type.style === blockType}
-          onToggle={props.handleToggle}
-        />
-      ))}
-    </>
-  );
+    return (
+      <>
+        {BLOCK_STYLES.map((type) => (
+          <ControlButton
+            key={type.label}
+            icon={type.icon}
+            label={type.label}
+            style={type.style}
+            active={type.style === blockType}
+            onToggle={handleToggle}
+          />
+        ))}
+      </>
+    );
+  }
 }

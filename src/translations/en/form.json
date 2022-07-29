@@ -1,0 +1,257 @@
+{
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "delete": "Delete",
+    "reset": "Reset",
+    "resetAll": "Reset all",
+    "generatePdf": "Generate PDF",
+    "generatingPdf": "Generating PDF",
+    "avatar": {
+        "addAvatar": "Add avatar",
+        "editAvatar": "Edit avatar",
+        "removeAvatar": "Remove avatar"
+    },
+    "richInput": {
+        "placeholder": "Enter your description..."
+    },
+    "general": {
+        "title": "General information",
+        "avatar": {
+            "error": {
+                "unsupportedFileType": "Unsupported file type!"
+            }
+        },
+        "firstName": {
+            "label": "First Name*",
+            "placeholder": "Enter your first name...",
+            "error": {
+                "tooShort": "First name is too short!",
+                "tooLong": "First name is too long!",
+                "required": "First name is required!"
+            }
+        },
+        "lastName": {
+            "label": "Last Name*",
+            "placeholder": "Enter your last name...",
+            "error": {
+                "tooShort": "Last name is too short!",
+                "tooLong": "Last name is too long!",
+                "required": "Last name is required!"
+            }
+        },
+        "email": {
+            "label": "Email address*",
+            "placeholder": "Enter your email address...",
+            "error": {
+                "invalid": "Email address is invalid!",
+                "tooLong": "Email address is too long!",
+                "required": "Email address is required!"
+            }
+        },
+        "phone": {
+            "label": "Phone number*",
+            "placeholder": "Enter your phone number...",
+            "error": {
+                "invalid": "Phone number is invalid!",
+                "required": "Phone number is required!"
+            }
+        },
+        "address": {
+            "label": "Address",
+            "placeholder": "Enter your address...",
+            "error": {
+                "tooLong": "Address is too long!"
+            }
+        },
+        "city": {
+            "label": "City",
+            "placeholder": "Enter your city...",
+            "error": {
+                "tooLong": "City is too long!"
+            }
+        },
+        "country": {
+            "label": "Country",
+            "placeholder": "Enter your country...",
+            "error": {
+                "tooLong": "Country is too long!"
+            }
+        },
+        "dateOfBirth": {
+            "label": "Date of birth",
+            "error": {
+                "invalid": "Date of birth is invalid!",
+                "tooLong": "Date of birth cannot be in the future!"
+            }
+        },
+        "gender": {
+            "label": "Gender",
+            "placeholder": "Select your gender",
+            "male": "Male",
+            "female": "Female",
+            "error": {
+                "invalid": "Gender is invalid!"
+            }
+        },
+        "website": {
+            "label": "Website address",
+            "placeholder": "Enter your website address...",
+            "error": {
+                "invalid": "Website address is invalid!",
+                "tooLong": "Website address is too long!"
+            }
+        },
+        "showAdditionalInformation": "Show additional information",
+        "hideAdditionalInformation": "Hide additional information"
+    },
+    "objective": {
+        "title": "Objective/Goal",
+        "description": {
+            "label": "Description",
+            "error": {
+                "tooLong": "Description is too long!"
+            }
+        }
+    },
+    "education": {
+        "title": "Education",
+        "addLabel": "Add an education",
+        "emptyLabel": "No education provided.",
+        "school": {
+            "label": "School/Organization",
+            "placeholder": "Enter a school or organization name...",
+            "error": {
+                "tooShort": "School/Organization name is too short!",
+                "tooLong": "School/Organization name is too long!",
+                "required": "School/Organization name is required!"
+            }
+        },
+        "degree": {
+            "label": "Degree/Course",
+            "placeholder": "Enter a degree or course name...",
+            "error": {
+                "tooShort": "Degree/Course name is too short!",
+                "tooLong": "Degree/Course name is too long!",
+                "required": "Degree/Course name is required!"
+            }
+        },
+        "startDate": {
+            "label": "Start date",
+            "error": {
+                "tooLong": "Start date cannot be in the future!",
+                "required": "Start date is required!"
+            }
+        },
+        "endDate": {
+            "label": "End date",
+            "error": {
+                "invalid": "End date is invalid!",
+                "tooShort": "End date cannot be before the start date!"
+            }
+        },
+        "description": {
+            "label": "Description",
+            "error": {
+                "tooLong": "Description is too long!"
+            }
+        }
+    },
+    "work": {
+        "title": "Work experience",
+        "addLabel": "Add a work experience",
+        "emptyLabel": "No work experience provided.",
+        "company": {
+            "label": "Company",
+            "placeholder": "Enter a company name...",
+            "error": {
+                "tooShort": "Company name is too short!",
+                "tooLong": "Company name is too long!",
+                "required": "Company name is required!"
+            }
+        },
+        "jobTitle": {
+            "label": "Job title",
+            "placeholder": "Enter a job title...",
+            "error": {
+                "tooShort": "Job title name is too short!",
+                "tooLong": "Job title name is too long!",
+                "required": "Job title name is required!"
+            }
+        },
+        "startDate": {
+            "label": "Start date",
+            "error": {
+                "tooLong": "Start date cannot be in the future!",
+                "required": "Start date is required!"
+            }
+        },
+        "endDate": {
+            "label": "End date",
+            "error": {
+                "invalid": "End date is invalid!",
+                "tooShort": "End date cannot be before the start date!"
+            }
+        },
+        "description": {
+            "label": "Description",
+            "error": {
+                "tooLong": "Description is too long!"
+            }
+        }
+    },
+    "skills": {
+        "title": "Skills",
+        "addLabel": "Add a skill",
+        "emptyLabel": "No skills provided.",
+        "skill": {
+            "label": "Skill",
+            "placeholder": "Enter your skill...",
+            "error": {
+                "tooShort": "Skill name is too short!",
+                "tooLong": "Skill name is too long!",
+                "required": "Skill name is required!"
+            }
+        },
+        "level": {
+            "label": "Level",
+            "placeholder": "Select a level",
+            "beginner": "Beginner",
+            "intermediate": "Intermediate",
+            "skilful": "Skilful",
+            "experienced": "Experienced",
+            "expert": "Expert",
+            "error": {
+                "invalid": "Level is invalid!",
+                "required": "Level is required!"
+            }
+        }
+    },
+    "interests": {
+        "title": "Interests",
+        "addLabel": "Add an interest",
+        "emptyLabel": "No interests provided.",
+        "interest": {
+            "label": "Interest",
+            "placeholder": "Enter your interest...",
+            "error": {
+                "tooShort": "Interest name is too short!",
+                "tooLong": "Interest name is too long!",
+                "required": "Interest name is required!"
+            }
+        }
+    },
+    "traits": {
+        "title": "Traits",
+        "emptyLabel": "No traits provided.",
+        "addLabel": "Add a trait",
+        "trait": {
+            "label": "Trait",
+            "placeholder": "Enter your trait...",
+            "error": {
+                "tooShort": "Trait name is too short!",
+                "tooLong": "Trait name is too long!",
+                "required": "Trait name is required!"
+            }
+        }
+    }
+}

@@ -5,35 +5,29 @@ import ListSection from './ListSection';
 import ListItemPreview from './ListItemPreview';
 import SectionControls from './SectionControls';
 import { toggleListItemLocked } from './helpers';
+import { withTranslation } from 'react-i18next';
 
-export const InterestsValidationSchema = {
-  interest: Yup.string()
-    .min(2, 'Interest name is too short')
-    .max(64, 'Interest name is too long!')
-    .required('Interest name is required!'),
-};
-
-export const InterestsInitalValues = {
-  interest: '',
-};
-
-export default class InterestsSection extends Component {
+class InterestsSection extends Component {
   render() {
-    const { formik } = this.props;
+    const { t, formik } = this.props;
 
     return (
       <ListSection
-        legend="Interests"
+        legend={t('interests.title')}
+        addLabel={t('interests.addLabel')}
+        emptyLabel={t('interests.emptyLabel')}
         fieldName="interests"
         field={formik.values.interests}
         formik={formik}
         initialValues={InterestsInitalValues}
-        InputComponent={InterestsInputs}
+        InputComponent={InterestsInputsTranslated}
         maxItems={10}
       />
     );
   }
 }
+
+export default withTranslation('form')(InterestsSection);
 
 class InterestsInputs extends Component {
   constructor(props) {
@@ -67,7 +61,8 @@ class InterestsInputs extends Component {
   }
 
   render() {
-    const { index, field, arrayHelpers } = this.props;
+    const { t, index, field, arrayHelpers } = this.props;
+    const { getFieldProps, getFieldMeta } = this.props.formik;
 
     const listItemControls = (
       <SectionControls
@@ -89,10 +84,12 @@ class InterestsInputs extends Component {
           <>
             <div className="form-row row">
               <TextInput
-                label="Interest"
+                label={t('interests.interest.label')}
                 type="text"
                 name={`interests[${index}].interest`}
-                placeholder="Football"
+                placeholder={t('interests.interest.placeholder')}
+                getFieldProps={getFieldProps}
+                getFieldMeta={getFieldMeta}
               />
             </div>
             {listItemControls}
@@ -102,3 +99,16 @@ class InterestsInputs extends Component {
     );
   }
 }
+
+const InterestsInputsTranslated = withTranslation('form')(InterestsInputs);
+
+export const InterestsValidationSchema = {
+  interest: Yup.string()
+    .min(2, 'interests.interest.error.tooShort')
+    .max(64, 'interests.interest.error.tooLong')
+    .required('interests.interest.error.required'),
+};
+
+export const InterestsInitalValues = {
+  interest: '',
+};

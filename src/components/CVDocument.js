@@ -48,7 +48,8 @@ export default class CVDocument extends Component {
     } = this.props.values.general;
 
     const { objective } = this.props.values;
-    const objectiveCharCount = RichInput.getCharCount(objective);
+    const objectiveCharCount =
+      RichInput.WrappedComponent.getCharCount(objective);
 
     const { interests, traits, education, work, skills } = this.props.values;
     return (
