@@ -26,7 +26,7 @@
         },
         "firstName": {
             "label": "First Name*",
-            "placeholder": "Enter your first name...",
+            "placeholder": "e.g. Marco",
             "error": {
                 "tooShort": "First name is too short!",
                 "tooLong": "First name is too long!",
@@ -35,7 +35,7 @@
         },
         "lastName": {
             "label": "Last Name*",
-            "placeholder": "Enter your last name...",
+            "placeholder": "e.g. Polo",
             "error": {
                 "tooShort": "Last name is too short!",
                 "tooLong": "Last name is too long!",
@@ -44,7 +44,7 @@
         },
         "email": {
             "label": "Email address*",
-            "placeholder": "Enter your email address...",
+            "placeholder": "e.g. marco.polo@gmail.com",
             "error": {
                 "invalid": "Email address is invalid!",
                 "tooLong": "Email address is too long!",
@@ -53,7 +53,7 @@
         },
         "phone": {
             "label": "Phone number*",
-            "placeholder": "Enter your phone number...",
+            "placeholder": "e.g. 253-631-5997",
             "error": {
                 "invalid": "Phone number is invalid!",
                 "required": "Phone number is required!"
@@ -61,21 +61,21 @@
         },
         "address": {
             "label": "Address",
-            "placeholder": "Enter your address...",
+            "placeholder": "e.g. 396 Duke Lane",
             "error": {
                 "tooLong": "Address is too long!"
             }
         },
         "city": {
             "label": "City",
-            "placeholder": "Enter your city...",
+            "placeholder": "e.g. New Jersey",
             "error": {
                 "tooLong": "City is too long!"
             }
         },
         "country": {
             "label": "Country",
-            "placeholder": "Enter your country...",
+            "placeholder": "e.g. USA",
             "error": {
                 "tooLong": "Country is too long!"
             }
@@ -98,7 +98,7 @@
         },
         "website": {
             "label": "Website address",
-            "placeholder": "Enter your website address...",
+            "placeholder": "e.g. https://marcopolo.com",
             "error": {
                 "invalid": "Website address is invalid!",
                 "tooLong": "Website address is too long!"
@@ -122,7 +122,7 @@
         "emptyLabel": "No education provided.",
         "school": {
             "label": "School/Organization",
-            "placeholder": "Enter a school or organization name...",
+            "placeholder": "e.g. Columbia University",
             "error": {
                 "tooShort": "School/Organization name is too short!",
                 "tooLong": "School/Organization name is too long!",
@@ -131,7 +131,7 @@
         },
         "degree": {
             "label": "Degree/Course",
-            "placeholder": "Enter a degree or course name...",
+            "placeholder": "e.g. BS in Computer Science",
             "error": {
                 "tooShort": "Degree/Course name is too short!",
                 "tooLong": "Degree/Course name is too long!",
@@ -165,7 +165,7 @@
         "emptyLabel": "No work experience provided.",
         "company": {
             "label": "Company",
-            "placeholder": "Enter a company name...",
+            "placeholder": "e.g. DC Systems",
             "error": {
                 "tooShort": "Company name is too short!",
                 "tooLong": "Company name is too long!",
@@ -174,7 +174,7 @@
         },
         "jobTitle": {
             "label": "Job title",
-            "placeholder": "Enter a job title...",
+            "placeholder": "e.g. Accounting Assistant",
             "error": {
                 "tooShort": "Job title name is too short!",
                 "tooLong": "Job title name is too long!",
@@ -208,7 +208,7 @@
         "emptyLabel": "No skills provided.",
         "skill": {
             "label": "Skill",
-            "placeholder": "Enter your skill...",
+            "placeholder": "e.g. Microsoft Word",
             "error": {
                 "tooShort": "Skill name is too short!",
                 "tooLong": "Skill name is too long!",
@@ -235,7 +235,7 @@
         "emptyLabel": "No interests provided.",
         "interest": {
             "label": "Interest",
-            "placeholder": "Enter your interest...",
+            "placeholder": "e.g. Fishing",
             "error": {
                 "tooShort": "Interest name is too short!",
                 "tooLong": "Interest name is too long!",
@@ -249,7 +249,7 @@
         "addLabel": "Add a trait",
         "trait": {
             "label": "Trait",
-            "placeholder": "Enter your trait...",
+            "placeholder": "e.g. Honest",
             "error": {
                 "tooShort": "Trait name is too short!",
                 "tooLong": "Trait name is too long!",

@@ -26,7 +26,7 @@
         },
         "firstName": {
             "label": "Ime*",
-            "placeholder": "Unesite svoje ime...",
+            "placeholder": "npr. Marko",
             "error": {
                 "tooShort": "Ime je prekratko!",
                 "tooLong": "Ime je predugačko!",
@@ -35,7 +35,7 @@
         },
         "lastName": {
             "label": "Prezime*",
-            "placeholder": "Unesite svoje prezime...",
+            "placeholder": "npr. Jovanović",
             "error": {
                 "tooShort": "Prezime je prekratko!",
                 "tooLong": "Prezime je predugačko!",
@@ -44,7 +44,7 @@
         },
         "email": {
             "label": "Mejl adresa*",
-            "placeholder": "Unesite svoju mejl adresu...",
+            "placeholder": "npr. jovanovic.marko@gmail.com",
             "error": {
                 "invalid": "Mejl adresa je neispravna!",
                 "tooLong": "Mejl adresa je predugačka!",
@@ -53,7 +53,7 @@
         },
         "phone": {
             "label": "Broj telefona*",
-            "placeholder": "Unesite svoj broj telefona...",
+            "placeholder": "npr. 0621234567",
             "error": {
                 "invalid": "Broj telefona je neispravan!",
                 "required": "Broj telefona je obavezan!"
@@ -61,21 +61,21 @@
         },
         "address": {
             "label": "Adresa",
-            "placeholder": "Unesite svoju adresu...",
+            "placeholder": "npr. Bulevar Mihajla Pupina",
             "error": {
                 "tooLong": "Adresa je predugačka!"
             }
         },
         "city": {
             "label": "Grad",
-            "placeholder": "Unesite svoj grad...",
+            "placeholder": "npr. Novi Sad",
             "error": {
                 "tooLong": "Ime grada je predugačko!"
             }
         },
         "country": {
             "label": "Država",
-            "placeholder": "Unesite svoju državu...",
+            "placeholder": "npr. Srbija",
             "error": {
                 "tooLong": "Ime države je predugačko!"
             }
@@ -98,7 +98,7 @@
         },
         "website": {
             "label": "Vebsajt adresa",
-            "placeholder": "Unesite svoju vebsajt adresu...",
+            "placeholder": "npr. https://markojovanovic.rs",
             "error": {
                 "invalid": "Vebsajt adresa je neispravna!",
                 "tooLong": "Vebsajt adresa je predugačka!"
@@ -122,7 +122,7 @@
         "emptyLabel": "Nije navedeno obrazovanje.",
         "school": {
             "label": "Škola/Organizacija",
-            "placeholder": "Unesite školu ili organizaciju...",
+            "placeholder": "npr. FTN",
             "error": {
                 "tooShort": "Ime škole/organizacije je prekratko!",
                 "tooLong": "Ime škole/organizacije je predugačko!",
@@ -131,7 +131,7 @@
         },
         "degree": {
             "label": "Školska sprema/Kurs",
-            "placeholder": "Unesite školsku spremu ili kurs...",
+            "placeholder": "npr. Mehatronika",
             "error": {
                 "tooShort": "Ime školske spreme/kursa je prekratko!",
                 "tooLong": "Ime školske spreme/kursa je predugačko!",
@@ -165,7 +165,7 @@
         "emptyLabel": "Nije navedeno radno iskustvo.",
         "company": {
             "label": "Kompanija",
-            "placeholder": "Unesite ime kompanije...",
+            "placeholder": "npr. Njuz Net",
             "error": {
                 "tooShort": "Ime kompanije je prekratko!",
                 "tooLong": "Ime kompanije je predugačko!",
@@ -174,7 +174,7 @@
         },
         "jobTitle": {
             "label": "Pozicija",
-            "placeholder": "Unesite poziciju...",
+            "placeholder": "npr. Moralna podrška",
             "error": {
                 "tooShort": "Ime pozicije je prekratko!",
                 "tooLong": "Ime pozicije je predugačko!",
@@ -208,11 +208,11 @@
         "emptyLabel": "Nisu navedne veštine.",
         "skill": {
             "label": "Veština",
-            "placeholder": "Unesite ime veštine...",
+            "placeholder": "npr. Microsoft Word",
             "error": {
-                "tooShort": "Ime veštine je prekratko!",
-                "tooLong": "Ime veštine je predugačko!!",
-                "required": "Ime veštine je obavezno!"
+                "tooShort": "Naziv veštine je prekratak!",
+                "tooLong": "Naziv veštine je predugačak!",
+                "required": "Naziv veštine je obavezan!"
             }
         },
         "level": {
@@ -235,7 +235,7 @@
         "emptyLabel": "Nisu navedena interesovanja.",
         "interest": {
             "label": "Interesovanje",
-            "placeholder": "Unesite naziv interesovanja...",
+            "placeholder": "npr. Pecanje",
             "error": {
                 "tooShort": "Naziv interesovanja je prekratak!",
                 "tooLong": "Naziv interesovanja je predugačak!",
@@ -249,7 +249,7 @@
         "emptyLabel": "Nisu navedne osobine.",
         "trait": {
             "label": "Osobina",
-            "placeholder": "Unesite naziv osobine...",
+            "placeholder": "npr. Iskrenost",
             "error": {
                 "tooShort": "Naziv osobine je prekratak!",
                 "tooLong": "Naziv osobine je predugačak!",
