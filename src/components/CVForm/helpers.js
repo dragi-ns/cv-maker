@@ -1,11 +1,21 @@
 import { format } from 'date-fns';
+import { enUS as en, srLatn as sr } from 'date-fns/locale';
 
-export function formatPeriod(startDate, endDate) {
-  let formatedEndDate = 'Present';
-  if (endDate) {
-    formatedEndDate = format(new Date(endDate), 'MMM yyyy');
+export function formatDate(date, dateFormat = 'dd.MM.yyyy.', lang = 'en') {
+  const locale = lang === 'en' ? en : sr;
+  if (!date) {
+    return 'date.ongoing';
   }
-  return `${format(new Date(startDate), 'MMM yyyy')} - ${formatedEndDate}`;
+  return format(new Date(date), dateFormat, { locale });
+}
+
+export function formatPeriod(startDate, endDate, lang = 'en') {
+  const locale = lang === 'en' ? en : sr;
+  let formatedEndDate = 'date.ongoing';
+  if (endDate) {
+    formatedEndDate = formatDate(endDate, 'MMM yyyy', locale);
+  }
+  return [formatDate(startDate, 'MMM yyyy', locale), formatedEndDate];
 }
 
 export async function toggleListItemLocked(

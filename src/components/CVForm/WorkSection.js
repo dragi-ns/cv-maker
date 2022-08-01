@@ -73,7 +73,7 @@ class WorkInputSection extends Component {
   }
 
   render() {
-    const { t, index, field, arrayHelpers } = this.props;
+    const { t, i18n, index, field, arrayHelpers } = this.props;
     const {
       errors,
       setFieldValue,
@@ -94,14 +94,18 @@ class WorkInputSection extends Component {
 
     let period = null;
     if (this.state.locked) {
-      period = formatPeriod(field[index].startDate, field[index].endDate);
+      period = formatPeriod(
+        field[index].startDate,
+        field[index].endDate,
+        i18n.language
+      );
     }
     return (
       <>
         {this.state.locked ? (
           <ListItemPreview
             title={[field[index].company, field[index].jobTitle]}
-            subtitle={period}
+            subtitle={`${period[0]} - ${t(period[1])}`}
             listItemControls={listItemControls}
           />
         ) : (

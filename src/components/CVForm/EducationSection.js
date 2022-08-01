@@ -73,7 +73,7 @@ class EducationInputSection extends Component {
   }
 
   render() {
-    const { t, index, field, arrayHelpers } = this.props;
+    const { t, i18n, index, field, arrayHelpers } = this.props;
     const {
       errors,
       setFieldValue,
@@ -94,14 +94,18 @@ class EducationInputSection extends Component {
 
     let period = null;
     if (this.state.locked) {
-      period = formatPeriod(field[index].startDate, field[index].endDate);
+      period = formatPeriod(
+        field[index].startDate,
+        field[index].endDate,
+        i18n.lanugage
+      );
     }
     return (
       <>
         {this.state.locked ? (
           <ListItemPreview
             title={[field[index].school, field[index].degree]}
-            subtitle={period}
+            subtitle={`${period[0]} - ${t(period[1])}`}
             listItemControls={listItemControls}
           />
         ) : (

@@ -1,11 +1,14 @@
 {
+    "date": {
+        "ongoing": "Present"
+    },
     "lock": "Lock",
     "unlock": "Unlock",
     "delete": "Delete",
     "reset": "Reset",
     "resetAll": "Reset all",
     "generatePdf": "Generate PDF",
-    "generatingPdf": "Generating PDF",
+    "generatingPdf": "Generating PDF...",
     "avatar": {
         "addAvatar": "Add avatar",
         "editAvatar": "Edit avatar",

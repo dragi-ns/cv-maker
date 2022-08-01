@@ -1,4 +1,7 @@
 {
+    "date": {
+        "ongoing": "Trenutno"
+    },
     "lock": "Zaključaj",
     "unlock": "Otključaj",
     "delete": "Obriši",

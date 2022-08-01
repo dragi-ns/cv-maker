@@ -3,9 +3,11 @@ import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 import { Button } from './buttons';
 import { MdOutlineClear, MdDownload } from 'react-icons/md';
 import { CVForm } from './CVForm';
-import CVDocument from './CVDocument';
+import { CVDocument } from './CVDocument';
 import { pdf } from '@react-pdf/renderer';
 import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
+import { I18nextProvider } from 'react-i18next';
 
 class Main extends Component {
   constructor(props) {
@@ -23,7 +25,11 @@ class Main extends Component {
   }
 
   async handleSubmit(formData) {
-    const blob = await pdf(<CVDocument values={formData} />).toBlob();
+    const blob = await pdf(
+      <I18nextProvider i18n={i18next}>
+        <CVDocument values={formData} />
+      </I18nextProvider>
+    ).toBlob();
     const base64 = await new Promise((resolve, _) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
