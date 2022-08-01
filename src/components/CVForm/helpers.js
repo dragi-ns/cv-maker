@@ -10,12 +10,11 @@ export function formatDate(date, dateFormat = 'dd.MM.yyyy.', lang = 'en') {
 }
 
 export function formatPeriod(startDate, endDate, lang = 'en') {
-  const locale = lang === 'en' ? en : sr;
   let formatedEndDate = 'date.ongoing';
   if (endDate) {
-    formatedEndDate = formatDate(endDate, 'MMM yyyy', locale);
+    formatedEndDate = formatDate(endDate, 'MMM yyyy', lang);
   }
-  return [formatDate(startDate, 'MMM yyyy', locale), formatedEndDate];
+  return [formatDate(startDate, 'MMM yyyy', lang), formatedEndDate];
 }
 
 export async function toggleListItemLocked(

@@ -97,7 +97,7 @@ class EducationInputSection extends Component {
       period = formatPeriod(
         field[index].startDate,
         field[index].endDate,
-        i18n.lanugage
+        i18n.language
       );
     }
     return (
