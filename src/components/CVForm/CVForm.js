@@ -21,21 +21,34 @@ import TraitsSection, { TraitsValidationSchema } from './TraitsSection';
 import { MdBuild, MdOutlineClear } from 'react-icons/md';
 import { Button } from '../buttons';
 import { withTranslation } from 'react-i18next';
+import demoInitialValues from './demoInitialValues';
 
 class CVForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadDemo: false,
+    };
+  }
+
   render() {
     const { t } = this.props;
     return (
       <Formik
-        initialValues={{
-          general: GeneralInitialValues,
-          ...ObjectiveInitialValues,
-          education: [],
-          work: [],
-          skills: [],
-          interests: [],
-          traits: [],
-        }}
+        enableReinitialize={true}
+        initialValues={
+          this.state.loadDemo
+            ? demoInitialValues
+            : {
+                general: GeneralInitialValues,
+                ...ObjectiveInitialValues,
+                education: [],
+                work: [],
+                skills: [],
+                interests: [],
+                traits: [],
+              }
+        }
         validationSchema={Yup.object().shape({
           general: Yup.object().shape(GeneralValidationSchema),
           ...ObjectiveValidationSchema,
@@ -65,6 +78,11 @@ class CVForm extends Component {
         }}>
         {(props) => (
           <Form className="form">
+            <Button
+              className="load-demo-data"
+              data={{ label: 'Load demo data' }}
+              onClick={() => this.setState({ loadDemo: true })}
+            />
             <GeneralSection formik={props} />
             <ObjectiveSection formik={props} />
             <EducationSection formik={props} />
@@ -75,7 +93,10 @@ class CVForm extends Component {
             <div className="form-controls row">
               <Button
                 data={{ icon: <MdOutlineClear />, label: t('resetAll') }}
-                onClick={props.handleReset}
+                onClick={() => {
+                  this.setState({ loadDemo: false });
+                  props.handleReset();
+                }}
               />
               <Button
                 type="submit"

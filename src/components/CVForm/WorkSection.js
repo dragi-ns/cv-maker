@@ -37,7 +37,7 @@ class WorkInputSection extends Component {
     this.maxStartDate = format(new Date(), 'yyyy-MM-dd');
     this.state = {
       locked: false,
-      minEndDate: this.maxStartDate,
+      minEndDate: '',
     };
     this.toggleLocked = this.toggleLocked.bind(this);
     this.isWorkValid = this.isWorkValid.bind(this);
