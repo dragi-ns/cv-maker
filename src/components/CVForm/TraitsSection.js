@@ -37,6 +37,7 @@ class TraitsInputs extends Component {
     };
     this.toggleLocked = this.toggleLocked.bind(this);
     this.isTraitValid = this.isTraitValid.bind(this);
+    this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
   }
 
   async toggleLocked() {
@@ -58,6 +59,14 @@ class TraitsInputs extends Component {
   isTraitValid() {
     const { errors } = this.props.formik;
     return !errors.traits || !errors.traits[this.props.index];
+  }
+
+  handleOnKeyDown(event) {
+    if (event.key === 'Enter') {
+      event.stopPropagation();
+
+      this.toggleLocked();
+    }
   }
 
   render() {
@@ -90,6 +99,7 @@ class TraitsInputs extends Component {
                 placeholder={t('traits.trait.placeholder')}
                 getFieldProps={getFieldProps}
                 getFieldMeta={getFieldMeta}
+                onKeyDown={this.handleOnKeyDown}
               />
             </div>
             {listItemControls}

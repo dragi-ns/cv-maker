@@ -37,6 +37,7 @@ class InterestsInputs extends Component {
     };
     this.toggleLocked = this.toggleLocked.bind(this);
     this.isInterestValid = this.isInterestValid.bind(this);
+    this.handleOnKeyDown = this.handleOnKeyDown.bind(this);
   }
 
   async toggleLocked() {
@@ -58,6 +59,14 @@ class InterestsInputs extends Component {
   isInterestValid() {
     const { errors } = this.props.formik;
     return !errors.interests || !errors.interests[this.props.index];
+  }
+
+  handleOnKeyDown(event) {
+    if (event.key === 'Enter') {
+      event.stopPropagation();
+
+      this.toggleLocked();
+    }
   }
 
   render() {
@@ -90,6 +99,7 @@ class InterestsInputs extends Component {
                 placeholder={t('interests.interest.placeholder')}
                 getFieldProps={getFieldProps}
                 getFieldMeta={getFieldMeta}
+                onKeyDown={this.handleOnKeyDown}
               />
             </div>
             {listItemControls}
